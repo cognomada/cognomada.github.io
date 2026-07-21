@@ -1226,41 +1226,60 @@
             });
         }
 
-        // Intersection Observer for individual element animations
-        const itemObserver = new IntersectionObserver((entries) => {
+        /* ============================================================
+           BOTTOM-EDGE ANIMATION TRIGGER
+           ------------------------------------------------------------
+           Elements only animate when they cross the bottom edge of
+           the viewport. They appear when entering from below (scroll
+           down) and disappear when entering from above (scroll up).
+           Elements already at the top of the viewport stay visible.
+
+           ZONE_PERCENT controls the height of the trigger band at
+           the bottom of the viewport. Increase it (e.g. 30) to make
+           animations happen earlier; decrease (e.g. 10) to wait
+           until elements are closer to the visible area.
+           ============================================================ */
+        const ZONE_PERCENT = 20;
+        const marginTop = `-${100 - ZONE_PERCENT}%`;
+
+        const bottomZoneObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('in-view');
-
-                    // Also animate the preceding section/subsection header
-                    // so the title and first item appear together
-                    const tag = entry.target.tagName.toLowerCase();
-                    const cls = entry.target.className;
-                    const isHeader = tag === 'h3' || cls.includes('section-header');
-                    if (!isHeader) {
-                        let node = entry.target;
-                        // Walk up to find the container, then look back for a header
-                        while (node && node !== document.body) {
-                            let prev = node.previousElementSibling;
-                            if (prev && (prev.tagName === 'H3' || prev.classList.contains('section-header'))) {
-                                prev.classList.add('in-view');
-                                break;
-                            }
-                            // If we're inside a list/grid/block, go up one level
-                            node = node.parentElement;
-                        }
+                    const wasVisible = entry.target.classList.contains('in-view');
+                    if (wasVisible) {
+                        // Entering from above → scrolling up → hide
+                        entry.target.classList.remove('in-view');
+                    } else {
+                        // Entering from below → scrolling down → show
+                        entry.target.classList.add('in-view');
                     }
                 }
+                // When !isIntersecting the element left the zone;
+                // state was already set on entry, so no action needed.
             });
         }, {
             root: null,
-            rootMargin: '0px 0px -5% 0px',
-            threshold: 0.1
+            rootMargin: `${marginTop} 0px 0px 0px`,
+            threshold: 0
         });
 
-        document.querySelectorAll('.section-header, h3, .timeline-item, .card-item, .congress-item, .project-card, .award-card, .about-text, .skill-category').forEach(el => {
-            itemObserver.observe(el);
-        });
+        const animatedItems = document.querySelectorAll(
+            '.section-header, h3, .timeline-item, .card-item, .congress-item, .project-card, .award-card, .about-text, .skill-category'
+        );
+
+        // On load, mark everything already above the trigger zone as visible
+        function initVisible() {
+            const zoneBoundary = window.innerHeight * (1 - ZONE_PERCENT / 100);
+            animatedItems.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < zoneBoundary) {
+                    el.classList.add('in-view');
+                }
+            });
+        }
+        initVisible();
+
+        animatedItems.forEach(el => bottomZoneObserver.observe(el));
 
         // Active section detection for nav dots
         const navDots = document.querySelectorAll('.nav-dot');
