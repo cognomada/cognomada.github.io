@@ -6,15 +6,14 @@
     <title>Alejandro Rujano — CV</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-primary: #ffffff;
-            --bg-secondary: #f8f9fa;
+            --bg-secondary: #f8f8fc;
             --bg-card: #ffffff;
-            --accent: #2c5282;
-            --accent-soft: #4a7ab8;
-            --accent-warm: #c75b39;
+            --accent-purple: #7570b3;
+            --accent-teal: #1b9e77;
             --text-primary: #1a202c;
             --text-secondary: #4a5568;
             --text-muted: #718096;
@@ -40,7 +39,7 @@
             font-size: 15px;
         }
 
-        /* Language toggle logic */
+        /* Language toggle */
         body.lang-en .es { display: none; }
         body.lang-es .en { display: none; }
 
@@ -50,7 +49,6 @@
             padding: 0 24px;
         }
 
-        /* Language switcher */
         .lang-switcher {
             position: fixed;
             top: 20px;
@@ -79,7 +77,7 @@
         }
 
         .lang-btn.active {
-            background: var(--accent);
+            background: var(--accent-purple);
             color: white;
         }
 
@@ -88,10 +86,9 @@
             background: var(--bg-secondary);
         }
 
-        /* Top accent bar */
         .top-accent {
             height: 4px;
-            background: linear-gradient(90deg, var(--accent-warm), var(--accent), #5a67d8, var(--accent-warm));
+            background: linear-gradient(90deg, var(--accent-teal), var(--accent-purple), #66a61e, var(--accent-teal));
             background-size: 300% 100%;
             animation: shimmer 8s ease infinite;
         }
@@ -107,7 +104,7 @@
         }
 
         .name {
-            font-family: 'Crimson Text', serif;
+            font-family: 'Alegreya', serif;
             font-size: clamp(2.8rem, 6vw, 4.5rem);
             font-weight: 700;
             line-height: 1.05;
@@ -132,9 +129,8 @@
         }
 
         .tagline {
-            font-family: 'Crimson Text', serif;
+            font-family: 'Alegreya', serif;
             font-size: 1.25rem;
-            font-style: italic;
             color: var(--text-secondary);
             margin-bottom: 24px;
             font-weight: 400;
@@ -162,9 +158,9 @@
         }
 
         .contact-item:hover {
-            color: var(--accent);
-            border-color: var(--accent-soft);
-            background: #edf2f7;
+            color: var(--accent-purple);
+            border-color: var(--accent-purple);
+            background: #f0eff6;
         }
 
         .contact-item svg {
@@ -178,8 +174,8 @@
             margin-top: 20px;
             padding: 10px 20px;
             background: transparent;
-            border: 1.5px solid var(--accent);
-            color: var(--accent);
+            border: 1.5px solid var(--accent-purple);
+            color: var(--accent-purple);
             text-decoration: none;
             border-radius: 6px;
             font-size: 0.9rem;
@@ -188,7 +184,7 @@
         }
 
         .blog-link:hover {
-            background: var(--accent);
+            background: var(--accent-purple);
             color: white;
         }
 
@@ -230,7 +226,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--accent);
+            color: var(--accent-purple);
             flex-shrink: 0;
         }
 
@@ -240,24 +236,23 @@
         }
 
         h2 {
-            font-family: 'Crimson Text', serif;
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            letter-spacing: 0.02em;
-            text-transform: uppercase;
+            font-family: 'Inter', sans-serif;
             font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--accent-teal);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
         }
 
         /* About */
         .about-text {
-            font-family: 'Crimson Text', serif;
+            font-family: 'Alegreya', serif;
             font-size: 1.15rem;
             line-height: 1.8;
             color: var(--text-secondary);
             padding: 24px;
             background: var(--bg-secondary);
-            border-left: 3px solid var(--accent-warm);
+            border-left: 3px solid var(--accent-purple);
             border-radius: 0 8px 8px 0;
         }
 
@@ -281,9 +276,9 @@
         }
 
         .skill-tag:hover {
-            border-color: var(--accent-soft);
-            color: var(--accent);
-            background: #edf2f7;
+            border-color: var(--accent-purple);
+            color: var(--accent-purple);
+            background: #f0eff6;
             transform: translateY(-2px);
         }
 
@@ -329,24 +324,25 @@
             width: 10px;
             height: 10px;
             background: var(--bg-primary);
-            border: 2px solid var(--accent-warm);
+            border: 2px solid var(--accent-purple);
             border-radius: 50%;
             z-index: 1;
         }
 
         .timeline-item:hover::before {
-            background: var(--accent-warm);
+            background: var(--accent-purple);
         }
 
         .timeline-role {
+            font-family: 'Alegreya', serif;
             font-weight: 600;
-            color: var(--text-primary);
+            color: var(--accent-purple);
             font-size: 1.05rem;
             margin-bottom: 2px;
         }
 
         .timeline-org {
-            color: var(--accent);
+            color: var(--text-secondary);
             font-size: 0.95rem;
             margin-bottom: 4px;
         }
@@ -358,7 +354,7 @@
             letter-spacing: 0.02em;
         }
 
-        /* Cards (certificates & courses) */
+        /* Cards (certificates, courses, publications, congresses) */
         .card-list {
             display: flex;
             flex-direction: column;
@@ -375,16 +371,16 @@
         }
 
         .card-item:hover {
-            border-color: var(--accent-soft);
+            border-color: var(--accent-purple);
             transform: translateX(4px);
             box-shadow: 0 4px 12px var(--shadow);
         }
 
         .card-title {
-            font-family: 'Crimson Text', serif;
+            font-family: 'Alegreya', serif;
+            font-weight: 600;
+            color: var(--accent-purple);
             font-size: 1.05rem;
-            font-style: italic;
-            color: var(--text-primary);
             margin-bottom: 4px;
         }
 
@@ -394,46 +390,13 @@
         }
 
         .card-meta a {
-            color: var(--accent);
+            color: var(--accent-purple);
             text-decoration: none;
-            border-bottom: 1px dotted var(--accent);
+            border-bottom: 1px dotted var(--accent-purple);
         }
 
         .card-meta a:hover {
             border-bottom-style: solid;
-        }
-
-        /* Publications */
-        .pub-list {
-            list-style: none;
-        }
-
-        .pub-item {
-            padding: 16px 0;
-            border-bottom: 1px solid var(--border);
-            transition: padding-left 0.3s ease;
-        }
-
-        .pub-item:hover {
-            padding-left: 8px;
-            border-left: 2px solid var(--accent-warm);
-        }
-
-        .pub-item:last-child {
-            border-bottom: none;
-        }
-
-        .pub-title {
-            font-family: 'Crimson Text', serif;
-            font-size: 1.05rem;
-            font-style: italic;
-            color: var(--text-primary);
-            margin-bottom: 4px;
-        }
-
-        .pub-meta {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
         }
 
         /* Congresses by year */
@@ -442,15 +405,15 @@
         }
 
         .year-label {
-            font-family: 'Crimson Text', serif;
+            font-family: 'Alegreya', serif;
             font-size: 1.4rem;
-            color: var(--accent-warm);
+            color: var(--accent-teal);
             margin-bottom: 16px;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .congress-item {
-            padding: 14px 20px;
+            padding: 16px 20px;
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 8px;
@@ -460,16 +423,16 @@
         }
 
         .congress-item:hover {
-            border-color: var(--accent-soft);
+            border-color: var(--accent-purple);
             transform: translateX(4px);
             box-shadow: 0 4px 12px var(--shadow);
         }
 
         .congress-title {
-            font-family: 'Crimson Text', serif;
-            font-size: 1rem;
-            font-style: italic;
-            color: var(--text-primary);
+            font-family: 'Alegreya', serif;
+            font-weight: 600;
+            color: var(--accent-purple);
+            font-size: 1.05rem;
             margin-bottom: 6px;
         }
 
@@ -498,8 +461,8 @@
         }
 
         .award-card:hover {
-            border-color: var(--accent-warm);
-            box-shadow: 0 4px 16px rgba(199, 91, 57, 0.08);
+            border-color: var(--accent-purple);
+            box-shadow: 0 4px 16px rgba(117, 112, 179, 0.08);
         }
 
         .award-icon {
@@ -508,14 +471,14 @@
         }
 
         .award-text {
-            font-family: 'Crimson Text', serif;
+            font-family: 'Alegreya', serif;
             font-size: 1.1rem;
             color: var(--text-primary);
         }
 
         .award-year {
             font-size: 0.8rem;
-            color: var(--accent-warm);
+            color: var(--accent-teal);
             font-weight: 600;
             letter-spacing: 0.05em;
         }
@@ -537,16 +500,16 @@
         }
 
         .project-card:hover {
-            border-color: var(--accent-soft);
+            border-color: var(--accent-purple);
             transform: translateY(-4px);
             box-shadow: 0 8px 24px rgba(0,0,0,0.08);
         }
 
         .project-title {
-            font-family: 'Crimson Text', serif;
+            font-family: 'Alegreya', serif;
+            font-weight: 600;
+            color: var(--accent-purple);
             font-size: 1.05rem;
-            font-style: italic;
-            color: var(--text-primary);
             margin-bottom: 8px;
         }
 
@@ -558,7 +521,7 @@
 
         .project-year {
             font-size: 0.75rem;
-            color: var(--accent-warm);
+            color: var(--accent-teal);
             font-weight: 600;
         }
 
@@ -566,9 +529,9 @@
             display: inline-block;
             margin-top: 10px;
             font-size: 0.85rem;
-            color: var(--accent);
+            color: var(--accent-purple);
             text-decoration: none;
-            border-bottom: 1px dotted var(--accent);
+            border-bottom: 1px dotted var(--accent-purple);
         }
 
         .project-link:hover {
@@ -755,8 +718,8 @@
                 <div class="skills-grid">
                     <span class="skill-tag">AEMCCO</span>
                     <span class="skill-tag">EAM</span>
-                    <span class="skill-tag"><span class="es">Royal Statistical Society</span><span class="en">Royal Statistical Society</span></span>
-                    <span class="skill-tag"><span class="es">Hablando de Ciencia</span><span class="en">Hablando de Ciencia</span></span>
+                    <span class="skill-tag">Royal Statistical Society</span>
+                    <span class="skill-tag">Hablando de Ciencia</span>
                 </div>
             </div>
         </section>
@@ -869,37 +832,37 @@
             </div>
             
             <div class="skill-category-label" style="margin-bottom: 12px;"><span class="es">Divulgativas</span><span class="en">Popular Science</span></div>
-            <ul class="pub-list">
-                <li class="pub-item">
-                    <div class="pub-title">«Why neuroscientists still cannot read your mind»</div>
-                    <div class="pub-meta">Areo Magazine, 22 <span class="es">de octubre de</span><span class="en">Oct</span> 2020</div>
-                </li>
-                <li class="pub-item">
-                    <div class="pub-title">«Al final del arco iris»</div>
-                    <div class="pub-meta">Periferias, 28 <span class="es">de junio de</span><span class="en">Jun</span> 2020</div>
-                </li>
-                <li class="pub-item">
-                    <div class="pub-title">«A WEIRD problem for human nature»</div>
-                    <div class="pub-meta">Areo Magazine, 27 <span class="es">de noviembre de</span><span class="en">Nov</span> 2019</div>
-                </li>
-                <li class="pub-item">
-                    <div class="pub-title">«Susceptible y subliminalmente: La irracionalidad de nuestras decisiones»</div>
-                    <div class="pub-meta">Revista Fua, 2019</div>
-                </li>
-                <li class="pub-item">
-                    <div class="pub-title">«En prisión: ¿Venganza o corrección?»</div>
-                    <div class="pub-meta">Periferias, 28 <span class="es">de febrero de</span><span class="en">Feb</span> 2019</div>
-                </li>
-            </ul>
+            <div class="card-list">
+                <div class="card-item">
+                    <div class="card-title">Why neuroscientists still cannot read your mind</div>
+                    <div class="card-meta">Areo Magazine, 22 <span class="es">de octubre de</span><span class="en">Oct</span> 2020</div>
+                </div>
+                <div class="card-item">
+                    <div class="card-title">Al final del arco iris</div>
+                    <div class="card-meta">Periferias, 28 <span class="es">de junio de</span><span class="en">Jun</span> 2020</div>
+                </div>
+                <div class="card-item">
+                    <div class="card-title">A WEIRD problem for human nature</div>
+                    <div class="card-meta">Areo Magazine, 27 <span class="es">de noviembre de</span><span class="en">Nov</span> 2019</div>
+                </div>
+                <div class="card-item">
+                    <div class="card-title">Susceptible y subliminalmente: La irracionalidad de nuestras decisiones</div>
+                    <div class="card-meta">Revista Fua, 2019</div>
+                </div>
+                <div class="card-item">
+                    <div class="card-title">En prisión: Venganza o corrección?</div>
+                    <div class="card-meta">Periferias, 28 <span class="es">de febrero de</span><span class="en">Feb</span> 2019</div>
+                </div>
+            </div>
 
             <div class="skill-category-label" style="margin: 32px 0 12px;"><span class="es">Académicas</span><span class="en">Academic</span></div>
-            <ul class="pub-list">
-                <li class="pub-item">
-                    <div class="pub-title">«Who has anomalous experiences today? Evidence for the highly sensitive person paradox»</div>
-                    <div class="pub-meta">Álex Escolà-Gascón, Christopher C. French, Neil Dagnall, Andrew Denovan y <strong>Alejandro Rujano</strong></div>
-                    <div class="pub-meta"><em>Psychological Reports</em>, 2025</div>
-                </li>
-            </ul>
+            <div class="card-list">
+                <div class="card-item">
+                    <div class="card-title">Who has anomalous experiences today? Evidence for the highly sensitive person paradox</div>
+                    <div class="card-meta">Álex Escolà-Gascón, Christopher C. French, Neil Dagnall, Andrew Denovan y <strong>Alejandro Rujano</strong></div>
+                    <div class="card-meta"><em>Psychological Reports</em>, 2025</div>
+                </div>
+            </div>
         </section>
 
         <!-- Congresses -->
@@ -916,37 +879,37 @@
                 
                 <div class="congress-item">
                     <div class="congress-authors">Alejandro Rujano y Enrique Heredia-Aguado</div>
-                    <div class="congress-title">«Aunque la hipótesis se vista de seda: Sesgos metodológicos en el estudio de la paradoja de la igualdad de género»</div>
+                    <div class="congress-title">Aunque la hipótesis se vista de seda: Sesgos metodológicos en el estudio de la paradoja de la igualdad de género</div>
                     <div class="congress-meta"><span class="es">Comunicación oral</span><span class="en">Oral presentation</span> · XIX <span class="es">Congreso de Metodología de las Ciencias Sociales y de la Salud</span><span class="en">Congress of Methodology of Social and Health Sciences</span> (ULR)</div>
                 </div>
 
                 <div class="congress-item">
                     <div class="congress-authors">Alejandro Rujano</div>
-                    <div class="congress-title">«¿Quién es mujer en el deporte competitivo? La segregación sexual como políticas de opresión»</div>
+                    <div class="congress-title">Quién es mujer en el deporte competitivo? La segregación sexual como políticas de opresión</div>
                     <div class="congress-meta"><span class="es">Comunicación oral</span><span class="en">Oral presentation</span> · V <span class="es">Congreso Internacional de Estudios Interdisciplinares LGTBIA+ y Queer</span><span class="en">International Congress of Interdisciplinary LGTBIA+ and Queer Studies</span></div>
                 </div>
 
                 <div class="congress-item">
                     <div class="congress-authors">Enrique Heredia-Aguado, Alejandro Rujano, David Valiente y Arturo Gil</div>
-                    <div class="congress-title">«Técnicas de fusión de imágenes multiespectrales para una mejor detección mediante algoritmos de aprendizaje profundo»</div>
+                    <div class="congress-title">Técnicas de fusión de imágenes multiespectrales para una mejor detección mediante algoritmos de aprendizaje profundo</div>
                     <div class="congress-meta"><span class="es">Comunicación oral</span><span class="en">Oral presentation</span> · VI <span class="es">Congreso Anual Internacional de Estudiantes de Doctorado</span><span class="en">Annual International Doctoral Students Congress</span></div>
                 </div>
 
                 <div class="congress-item">
                     <div class="congress-authors">Laura Cepero Amores, Enrique Heredia-Aguado, Alejandro Rujano, Mª Victoria Pilar y Victoria Plaza</div>
-                    <div class="congress-title">«Búsqueda visual repetida en contexto natural, ¿eficiencia o aprendizaje?»</div>
+                    <div class="congress-title">Búsqueda visual repetida en contexto natural, eficiencia o aprendizaje?</div>
                     <div class="congress-meta"><span class="es">Comunicación oral</span><span class="en">Oral presentation</span> · VI <span class="es">Congreso Anual Internacional de Estudiantes de Doctorado</span><span class="en">Annual International Doctoral Students Congress</span></div>
                 </div>
 
                 <div class="congress-item">
                     <div class="congress-authors">Enrique Heredia-Aguado y Alejandro Rujano</div>
-                    <div class="congress-title">«No te dejes engañar por el azar: Cómo impacta la aleatoriedad en el diseño de redes neuronales»</div>
+                    <div class="congress-title">No te dejes engañar por el azar: Cómo impacta la aleatoriedad en el diseño de redes neuronales</div>
                     <div class="congress-meta"><span class="es">Comunicación oral</span><span class="en">Oral presentation</span> · XIX <span class="es">Congreso de Metodología de las Ciencias Sociales y de la Salud</span><span class="en">Congress of Methodology of Social and Health Sciences</span> (ULR)</div>
                 </div>
 
                 <div class="congress-item">
                     <div class="congress-authors">Laura Cepero-Amores, Enrique Heredia-Aguado, Alejandro Rujano, Victoria Plaza, Mª Pilar Aivar</div>
-                    <div class="congress-title">«Ojo al dato: Soluciones interdisciplinares a problemas metodológicos en experimentos de búsqueda visual»</div>
+                    <div class="congress-title">Ojo al dato: Soluciones interdisciplinares a problemas metodológicos en experimentos de búsqueda visual</div>
                     <div class="congress-meta"><span class="es">Comunicación oral</span><span class="en">Oral presentation</span> · XIX <span class="es">Congreso de Metodología de las Ciencias Sociales y de la Salud</span><span class="en">Congress of Methodology of Social and Health Sciences</span> (ULR)</div>
                 </div>
             </div>
@@ -956,13 +919,13 @@
                 
                 <div class="congress-item">
                     <div class="congress-authors">Alejandro Rujano</div>
-                    <div class="congress-title">«La cadena de los acontecimientos: Aspectos teóricos, metodológicos y filosóficos de la causalidad»</div>
+                    <div class="congress-title">La cadena de los acontecimientos: Aspectos teóricos, metodológicos y filosóficos de la causalidad</div>
                     <div class="congress-meta"><span class="es">Comunicación oral</span><span class="en">Oral presentation</span> · XVIII <span class="es">Congreso de Metodología de las Ciencias del Comportamiento</span><span class="en">Congress of Methodology of Behavioural Sciences</span> (URL)</div>
                 </div>
 
                 <div class="congress-item">
                     <div class="congress-authors">Alejandro Rujano y Alicia Franco-Martínez</div>
-                    <div class="congress-title">«Cómo divulgar psicometría a un público no psicólogo»</div>
+                    <div class="congress-title">Cómo divulgar psicometría a un público no psicólogo</div>
                     <div class="congress-meta"><span class="es">Comunicación oral</span><span class="en">Oral presentation</span> · XVIII <span class="es">Congreso de Metodología de las Ciencias del Comportamiento</span><span class="en">Congress of Methodology of Behavioural Sciences</span> (URL)</div>
                 </div>
             </div>
@@ -999,14 +962,14 @@
             <div class="project-grid">
                 <div class="project-card">
                     <div class="project-year">2026</div>
-                    <div class="project-title">«Psychometric Tools: Interactive web applications for measurement and assessment research»</div>
+                    <div class="project-title">Psychometric Tools: Interactive web applications for measurement and assessment research</div>
                     <div class="project-authors">Enrique Heredia-Aguado <span class="es">y</span><span class="en">and</span> Alejandro Rujano</div>
                     <a href="#" class="project-link"><span class="es">Ver proyecto →</span><span class="en">View project →</span></a>
                 </div>
                 
                 <div class="project-card">
                     <div class="project-year">2026</div>
-                    <div class="project-title">«ML Variance Tools: Interactive machine learning variance calculators»</div>
+                    <div class="project-title">ML Variance Tools: Interactive machine learning variance calculators</div>
                     <div class="project-authors">Enrique Heredia-Aguado, Alejandro Rujano, Daniel Valiente <span class="es">y</span><span class="en">and</span> Arturo Gil</div>
                     <a href="#" class="project-link"><span class="es">Ver proyecto →</span><span class="en">View project →</span></a>
                 </div>
@@ -1016,7 +979,7 @@
 
     <footer>
         <div class="container">
-            <p>Alejandro Rujano · <a href="https://fantasmamecanico.wordpress.com" style="color: var(--accent); text-decoration: none;">El Fantasma en la Máquina</a></p>
+            <p>Alejandro Rujano · <a href="https://fantasmamecanico.wordpress.com" style="color: var(--accent-purple); text-decoration: none;">El Fantasma en la Máquina</a></p>
             <p style="margin-top: 8px; font-size: 0.75rem; color: var(--text-muted);">
                 <span class="es">Diseñado a la medida.</span>
                 <span class="en">Tailor-made.</span>
