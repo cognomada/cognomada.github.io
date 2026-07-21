@@ -407,6 +407,19 @@
             transform: translateY(0);
         }
 
+        /* Disable transitions during initial load to prevent flash */
+        body.no-anim-init .timeline-item,
+        body.no-anim-init .card-item,
+        body.no-anim-init .congress-item,
+        body.no-anim-init .project-card,
+        body.no-anim-init .award-card,
+        body.no-anim-init .about-text,
+        body.no-anim-init .skill-category,
+        body.no-anim-init .section-header,
+        body.no-anim-init h3 {
+            transition: none !important;
+        }
+
         .skill-category-label {
             font-size: 0.75rem;
             text-transform: uppercase;
@@ -1227,59 +1240,83 @@
         }
 
         /* ============================================================
-           BOTTOM-EDGE ANIMATION TRIGGER
+           SCROLL-TRIGGER LINE
            ------------------------------------------------------------
-           Elements only animate when they cross the bottom edge of
-           the viewport. They appear when entering from below (scroll
-           down) and disappear when entering from above (scroll up).
-           Elements already at the top of the viewport stay visible.
+           A horizontal trigger line across the viewport controls
+           when each element animates in or out.
 
-           ZONE_PERCENT controls the height of the trigger band at
-           the bottom of the viewport. Increase it (e.g. 30) to make
-           animations happen earlier; decrease (e.g. 10) to wait
-           until elements are closer to the visible area.
+           • Scrolling DOWN  → element top crosses line upward → SHOW.
+           • Scrolling UP    → element top crosses line downward → HIDE.
+           • Elements already above the line stay visible.
+
+           TRIGGER_PERCENT: distance from top of viewport.
+           Lower (e.g. 60) = animations happen higher on screen.
+           Higher (e.g. 85) = animations happen closer to bottom.
            ============================================================ */
-        const ZONE_PERCENT = 20;
-        const marginTop = `-${100 - ZONE_PERCENT}%`;
-
-        const bottomZoneObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const wasVisible = entry.target.classList.contains('in-view');
-                    if (wasVisible) {
-                        // Entering from above → scrolling up → hide
-                        entry.target.classList.remove('in-view');
-                    } else {
-                        // Entering from below → scrolling down → show
-                        entry.target.classList.add('in-view');
-                    }
-                }
-                // When !isIntersecting the element left the zone;
-                // state was already set on entry, so no action needed.
-            });
-        }, {
-            root: null,
-            rootMargin: `${marginTop} 0px 0px 0px`,
-            threshold: 0
-        });
-
+        const TRIGGER_PERCENT = 80;
         const animatedItems = document.querySelectorAll(
             '.section-header, h3, .timeline-item, .card-item, .congress-item, .project-card, .award-card, .about-text, .skill-category'
         );
 
-        // On load, mark everything already above the trigger zone as visible
-        function initVisible() {
-            const zoneBoundary = window.innerHeight * (1 - ZONE_PERCENT / 100);
+        // Track whether each element's top edge is above the trigger line
+        const aboveLine = new WeakMap();
+
+        function checkAnimations() {
+            const triggerY = window.innerHeight * (TRIGGER_PERCENT / 100);
+
             animatedItems.forEach(el => {
                 const rect = el.getBoundingClientRect();
-                if (rect.top < zoneBoundary) {
+                const isAbove = rect.top < triggerY;
+                const wasAbove = aboveLine.get(el);
+
+                if (wasAbove !== undefined && wasAbove !== isAbove) {
+                    // The element just crossed the trigger line
+                    if (isAbove) {
+                        // Crossed upward → scrolling down → fade in
+                        el.classList.add('in-view');
+                    } else {
+                        // Crossed downward → scrolling up → fade out
+                        el.classList.remove('in-view');
+                    }
+                }
+
+                aboveLine.set(el, isAbove);
+            });
+        }
+
+        // On page load, set initial visibility instantly (no animation)
+        function init() {
+            document.body.classList.add('no-anim-init');
+            const triggerY = window.innerHeight * (TRIGGER_PERCENT / 100);
+
+            animatedItems.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                const isAbove = rect.top < triggerY;
+                aboveLine.set(el, isAbove);
+                if (isAbove) {
                     el.classList.add('in-view');
                 }
             });
-        }
-        initVisible();
 
-        animatedItems.forEach(el => bottomZoneObserver.observe(el));
+            // Force reflow so the instant state is painted before re-enabling transitions
+            void document.body.offsetHeight;
+            document.body.classList.remove('no-anim-init');
+        }
+
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    checkAnimations();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }, { passive: true });
+
+        window.addEventListener('resize', checkAnimations);
+
+        init();
 
         // Active section detection for nav dots
         const navDots = document.querySelectorAll('.nav-dot');
