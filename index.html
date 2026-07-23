@@ -462,6 +462,11 @@
             margin-bottom: 4px;
         }
 
+        #publications .timeline-org,
+        #congresses .timeline-org {
+            font-size: 0.8rem;
+        }
+
         .timeline-date {
             font-size: 0.8rem;
             color: var(--text-muted);
@@ -796,10 +801,15 @@
                 transform: none !important;
                 margin-bottom: 30px;
             }
+            .section-header,
+            .about-text,
+            .skill-category,
             .card-item,
             .congress-item,
             .project-card,
-            .timeline-item {
+            .timeline-item,
+            .award-card,
+            .project-tape-card {
                 opacity: 1 !important;
                 transform: none !important;
             }
@@ -1012,24 +1022,31 @@
 
 
         /* ── Publications & Congresses links ───────────────────── */
-        #publications .timeline-org a,
-        #congresses .timeline-date a,
-        #congresses .timeline-role a {
+        /* Broad catch-all: every link inside these two sections uses the palette */
+        #publications a,
+        #congresses a {
             color: var(--accent-purple);
             text-decoration: none;
             border-bottom: 1px dotted var(--accent-purple);
             transition: all 0.2s ease;
         }
 
-        #publications .timeline-org a:hover,
-        #congresses .timeline-date a:hover,
-        #congresses .timeline-role a:hover {
+        #publications a:visited,
+        #congresses a:visited {
+            color: var(--accent-purple);
+        }
+
+        #publications a:hover,
+        #congresses a:hover {
             color: var(--accent-teal);
             border-bottom-style: solid;
         }
 
+        /* Keep <em>/<i> inside .timeline-org dark */
         #publications .timeline-org em,
-        #publications .timeline-org i {
+        #publications .timeline-org i,
+        #congresses .timeline-org em,
+        #congresses .timeline-org i {
             font-style: italic;
             color: var(--text-primary);
         }
@@ -1225,11 +1242,11 @@
                 <div class="timeline">
                     <div class="timeline-item">
                         <div class="timeline-role"><span class="es">Analista de datos de IBM</span><span class="en">IBM Data Analyst</span></div>
-                        <div class="timeline-org">2025 · 60 <span class="es">h</span><span class="en">h</span> · <a href="certificates/CP%20Analista%20de%20datos%20de%20IBM.pdf" class="cert-link" target="_blank"><span class="es">Ver certificado →</span><span class="en">See certificate →</span></a></div>
+                        <div class="timeline-org">2025 · 60 <span class="es">h</span><span class="en">h</span></div>
                     </div>
                     <div class="timeline-item">
                         <div class="timeline-role"><span class="es">Analista de datos de Google</span><span class="en">Google Data Analyst</span></div>
-                        <div class="timeline-org">2024 · 260 <span class="es">h</span><span class="en">h</span> · <a href="https://coursera.org/verify/professional-cert/R2BCHNGGOF5D" class="cert-link" target="_blank"><span class="es">Ver certificado →</span><span class="en">See certificate →</span></a></div>
+                        <div class="timeline-org">2024 · 260 <span class="es">h</span><span class="en">h</span></div>
                     </div>
                 </div>
             </div>
@@ -1239,27 +1256,27 @@
                 <div class="timeline">
                     <div class="timeline-item">
                         <div class="timeline-role"><span class="es">Metaanálisis</span><span class="en">Meta-analysis</span></div>
-                        <div class="timeline-org">100 <span class="es">h</span><span class="en">h</span> · UAB · 2026 · <a href="certificates/Cur%20Metaan%C3%A1lisis%20(masked).pdf" class="cert-link" target="_blank"><span class="es">Ver certificado →</span><span class="en">See certificate →</span></a></div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-role"><span class="es">Inferencia causal (DAGs)</span><span class="en">Causal Inference (DAGs)</span></div>
-                        <div class="timeline-org">30 <span class="es">h</span><span class="en">h</span> · <span class="es">Universidad de Harvard</span><span class="en">Harvard University</span> · 2025 · <a href="https://courses.edx.org/certificates/a8839ebf122b4a2d812d5fae18ae866b" class="cert-link" target="_blank"><span class="es">Ver certificado →</span><span class="en">See certificate →</span></a></div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-role">Microsoft Power BI</div>
-                        <div class="timeline-org">40 <span class="es">h</span><span class="en">h</span> · IBM & Datahack · 2025 · <a href="certificates/Cur%20Power%20BI%20IBM.pdf" class="cert-link" target="_blank"><span class="es">Ver certificado →</span><span class="en">See certificate →</span></a></div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-role"><span class="es">Programación en Python</span><span class="en">Python Programming</span></div>
-                        <div class="timeline-org">60 <span class="es">h</span><span class="en">h</span> · IBM & Bejob · 2025 · <a href="certificates/Cur%20Python.pdf" class="cert-link" target="_blank"><span class="es">Ver certificado →</span><span class="en">See certificate →</span></a></div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-role"><span class="es">Bioarqueología de los cuidados</span><span class="en">Bioarchaeology of Care</span></div>
-                        <div class="timeline-org">11 <span class="es">h</span><span class="en">h</span> · UNED · 2025 · <a href="certificates/Cur%20Bioarqueolog%C3%ADa%20(masked).pdf" class="cert-link" target="_blank"><span class="es">Ver certificado →</span><span class="en">See certificate →</span></a></div>
+                        <div class="timeline-org">2026 · 100 <span class="es">horas</span><span class="en">hours</span> · Universitat Autònoma de Barcelona</div>
                     </div>
                     <div class="timeline-item">
                         <div class="timeline-role"><span class="es">Evaluación e intervención de la discalculia</span><span class="en">Assessment and Intervention of Dyscalculia</span></div>
-                        <div class="timeline-org">20 <span class="es">h</span><span class="en">h</span> · <span class="es">AEPS</span><span class="en">AEPS</span> · 2025 · <a href="certificates/Cur%20Discalculia%20(masked).pdf" class="cert-link" target="_blank"><span class="es">Ver certificado →</span><span class="en">See certificate →</span></a></div>
+                        <div class="timeline-org">2025 · 20 <span class="es">horas</span><span class="en">hours</span> · <span class="es">Asociación Española de Psicología Sanitaria</span><span class="en">Spanish Health Psychology Association</span></div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-role"><span class="es">Bioarqueología de los cuidados</span><span class="en">Bioarchaeology of Care</span></div>
+                        <div class="timeline-org">2025 · 11 <span class="es">horas</span><span class="en">hours</span> · UNED</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-role"><span class="es">Inferencia causal mediante gráficos acíclicos dirigidos</span><span class="en">Causal Inference via Directed Acyclic Graphs</span></div>
+                        <div class="timeline-org">2025 · 30 <span class="es">horas</span><span class="en">hours</span> · <span class="es">Universidad de Harvard</span><span class="en">Harvard University</span></div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-role">Microsoft Power BI</div>
+                        <div class="timeline-org">2025 · 40 <span class="es">horas · IBM y Datahack</span><span class="en">hours · IBM & Datahack</span></div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-role"><span class="es">Programación en Python</span><span class="en">Python Programming</span></div>
+                        <div class="timeline-org">2025 · 60 <span class="es">horas · IBM y Bejob</span><span class="en">hours · IBM & Bejob</span></div>
                     </div>
                 </div>
             </div>
@@ -1274,33 +1291,33 @@
             <h3><span class="es">Divulgativas</span><span class="en">Popular Science</span></h3>
             <div class="timeline">
                 <div class="timeline-item">
-                    <div class="timeline-role">En prisión: Venganza o corrección?</div>
-                    <div class="timeline-org"><a href="https://revistaperiferias.wordpress.com/2021/02/28/en-prision-venganza-o-correccion/"><em>Periferias</em></a>, 28 <span class="es">de febrero de</span><span class="en">Feb</span> 2021</div>
+                    <div class="timeline-role"><a href="https://revistaperiferias.wordpress.com/2021/02/28/en-prision-venganza-o-correccion/">En prisión: ¿Venganza o corrección?</a></div>
+                    <div class="timeline-org"><em>Periferias</em>, 28 <span class="es">de febrero de</span><span class="en">Feb</span> 2021.</div>
                 </div>
                 <div class="timeline-item">
-                    <div class="timeline-role">Why neuroscientists still cannot read your mind</div>
-                    <div class="timeline-org"><a href="https://areomagazine.com/2020/10/20/why-neuroscientists-still-cannot-read-your-mind/"><em>Areo Magazine</em></a>, 22 <span class="es">de octubre de</span><span class="en">Oct</span> 2020</div>
+                    <div class="timeline-role"><a href="https://areomagazine.com/2020/10/20/why-neuroscientists-still-cannot-read-your-mind/">Why neuroscientists still cannot read your mind</a></div>
+                    <div class="timeline-org"><em>Areo Magazine</em>, 22 <span class="es">de octubre de</span><span class="en">Oct</span> 2020.</div>
                 </div>
                 <div class="timeline-item">
-                    <div class="timeline-role">Al final del arco iris</div>
-                    <div class="timeline-org"><a href="https://revistaperiferias.wordpress.com/2020/06/28/al-final-del-arco-iris/"><em>Periferias</em></a>, 28 <span class="es">de junio de</span><span class="en">Jun</span> 2020</div>
+                    <div class="timeline-role"><a href="https://revistaperiferias.wordpress.com/2020/06/28/al-final-del-arco-iris/">Al final del arco iris</a></div>
+                    <div class="timeline-org"><em>Periferias</em>, 28 <span class="es">de junio de</span><span class="en">Jun</span> 2020.</div>
                 </div>
                 <div class="timeline-item">
-                    <div class="timeline-role">A WEIRD problem for human nature</div>
-                    <div class="timeline-org"><a href="https://areomagazine.com/2019/11/27/a-weird-problem-for-human-nature/"><em>Areo Magazine</em></a>, 27 <span class="es">de noviembre de</span><span class="en">Nov</span> 2019</div>
+                    <div class="timeline-role"><a href="https://areomagazine.com/2019/11/27/a-weird-problem-for-human-nature/">A WEIRD problem for human nature</a></div>
+                    <div class="timeline-org"><em>Areo Magazine</em>, 27 <span class="es">de noviembre de</span><span class="en">Nov</span> 2019.</div>
                 </div>
                 <div class="timeline-item">
-                    <div class="timeline-role">Susceptible y subliminalmente: La irracionalidad de nuestras decisiones</div>
-                    <div class="timeline-org"><a href="http://www.revistafua.com/article/susceptible-y-subliminal-mente/"><em>Revista Fua</em></a>, 2019</div>
+                    <div class="timeline-role"><a href="http://www.revistafua.com/article/susceptible-y-subliminal-mente/">Susceptible y subliminalmente: La irracionalidad de nuestras decisiones</a></div>
+                    <div class="timeline-org"><em>Revista Fua</em>, 2019.</div>
                 </div>
             </div>
 
             <h3 style="margin-top: 32px;"><span class="es">Académicas</span><span class="en">Academic</span></h3>
             <div class="timeline">
                 <div class="timeline-item">
-                    <div class="timeline-role">Who has anomalous experiences today? Evidence for the highly sensitive person paradox</div>
+                    <div class="timeline-role"><a href="https://journals.sagepub.com/doi/abs/10.1177/00332941251347255">Who has anomalous experiences today? Evidence for the highly sensitive person paradox</a></div>
                     <div class="timeline-org">Álex Escolà-Gascón, Christopher C. French, Neil Dagnall, Andrew Denovan y <strong>Alejandro Rujano</strong></div>
-                    <div class="timeline-org"><a href="https://journals.sagepub.com/doi/abs/10.1177/00332941251347255"><em>Psychological Reports</em></a>, 2025</div>
+                    <div class="timeline-org"><em>Psychological Reports</em>, 2025</div>
                 </div>
             </div>
         </section>
@@ -1317,7 +1334,7 @@
                     <div class="timeline-item">
                         <div class="timeline-role"><a href="#">Aunque la hipótesis se vista de seda: Sesgos metodológicos en el estudio de la paradoja de la igualdad de género</a></div>
                         <div class="timeline-org">Alejandro Rujano y Enrique Heredia-Aguado</div>
-                        <div class="timeline-date"><span class="comm-badge"><span class="es">Comunicación oral</span><span class="en">Oral presentation</span></span> · XIX <span class="es">Congreso de Metodología</span><span class="en">Methodology Congress</span> (ULR) · <a href="#">URL</a></div>
+                        <div class="timeline-date"><span class="comm-badge"><span class="es">Comunicación oral</span><span class="en">Oral presentation</span></span> · XIX <span class="es">Congreso de Metodología de las Ciencias del Comportamiento y de la Salud</span><span class="en">Health and Behavioural Sciences Methodology Congress</span></div>
                     </div>
                     <div class="timeline-item">
                         <div class="timeline-role"><a href="#">No te dejes engañar por el azar: Cómo impacta la aleatoriedad en el diseño de redes neuronales</a></div>
@@ -1330,7 +1347,7 @@
                         <div class="timeline-date"><span class="comm-badge"><span class="es">Comunicación oral</span><span class="en">Oral presentation</span></span> · XIX <span class="es">Congreso de Metodología de las Ciencias del Comportamiento y de la Salud</span><span class="en">Health and Behavioural Sciences Methodology Congress</span></div>
                     </div>
                     <div class="timeline-item">
-                        <div class="timeline-role"><a href="#">Quién es mujer en el deporte competitivo? La segregación sexual como políticas de opresión</a></div>
+                        <div class="timeline-role"><a href="#">¿Quién es mujer en el deporte competitivo? La segregación sexual como políticas de opresión</a></div>
                         <div class="timeline-org">Alejandro Rujano</div>
                         <div class="timeline-date"><span class="comm-badge"><span class="es">Comunicación oral</span><span class="en">Oral presentation</span></span> · V <span class="es">Congreso Internacional de Estudios Interdisciplinares LGTBIA+ y Queer</span><span class="en">International LGTBIA+ & Queer Interdisciplinary Studies Congress</span></div>
                     </div>
@@ -1340,8 +1357,8 @@
                         <div class="timeline-date"><span class="comm-badge"><span class="es">Comunicación oral</span><span class="en">Oral presentation</span></span> · VI <span class="es">Congreso Anual Internacional de Estudiantes de Doctorado</span><span class="en">International Annual Doctoral Students Congress</span></div>
                     </div>
                     <div class="timeline-item">
-                        <div class="timeline-role"><a href="#">Búsqueda visual repetida en contexto natural, eficiencia o aprendizaje?</a></div>
-                        <div class="timeline-org">Laura Cepero Amores, Enrique Heredia-Aguado, Alejandro Rujano, Mª Victoria Pilar y Victoria Plaza</div>
+                        <div class="timeline-role"><a href="#">Búsqueda visual repetida en contexto natural, ¿eficiencia o aprendizaje?</a></div>
+                        <div class="timeline-org">Laura Cepero Amores, Enrique Heredia-Aguado, Alejandro Rujano, M..ª Victoria Pilar y Victoria Plaza</div>
                         <div class="timeline-date"><span class="comm-badge"><span class="es">Comunicación oral</span><span class="en">Oral presentation</span></span> · VI <span class="es">Congreso Anual Internacional de Estudiantes de Doctorado</span><span class="en">International Annual Doctoral Students Congress</span></div>
                     </div>
                 </div>
@@ -1405,10 +1422,10 @@
                         <a href="https://enheragu.github.io/mlv-tools/" class="project-tape-link"><span class="es">Ver proyecto →</span><span class="en">View project →</span></a>
                     </div>
                     <div class="project-tape-card">
-                        <div class="project-tape-year">Desde 2019</div>
+                        <div class="project-tape-year"><span class="es">Desde 2019</span><span class="en">Since 2019</span></div>
                         <span class="project-badge"><span class="es">Divulgación científica</span><span class="en">Science Communication</span></span>
                         <div class="project-tape-title">El Fantasma en la Máquina</div>
-                        <div class="project-tape-authors">Alejandro Rujano — blog</div>
+                        <div class="project-tape-authors">Alejandro Rujano</div>
                         <a href="https://fantasmamecanico.wordpress.com" class="project-tape-link"><span class="es">Visitar blog →</span><span class="en">Visit blog →</span></a>
                     </div>
                 </div>
@@ -1448,7 +1465,12 @@
             });
         }
 
-                // Intersection Observer for individual achievement items
+                // Directional scroll observer:
+        //  • Scrolling down: elements enter from bottom → animate in.
+        //  • Scrolling down past them: they leave through top → stay visible.
+        //  • Scrolling up: they leave through bottom → animate out (disappear).
+        //  • Scrolling down again after dismissal → animate back in.
+        const itemStates = new WeakMap();
         const itemObserverOptions = {
             root: null,
             rootMargin: '0px 0px -8% 0px',
@@ -1457,17 +1479,47 @@
 
         const itemObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('in-view');
-                    // Once revealed, stop watching it: it stays visible even
-                    // after it scrolls out of view above the viewport.
-                    itemObserver.unobserve(entry.target);
+                const rect = entry.boundingClientRect;
+                const isInView = entry.isIntersecting;
+                let state = itemStates.get(entry.target) || 'hidden';
+
+                if (isInView) {
+                    // Entering from bottom
+                    if (rect.top >= 0 && (state === 'hidden' || state === 'dismissed')) {
+                        entry.target.classList.add('in-view');
+                        itemStates.set(entry.target, 'visible');
+                    }
+                    // Entering from top → do nothing
+                } else {
+                    // Leaving
+                    if (state === 'visible') {
+                        if (rect.top > 0) {
+                            // Leaving through bottom (scrolling up) → dismiss
+                            entry.target.classList.remove('in-view');
+                            itemStates.set(entry.target, 'dismissed');
+                        }
+                        // Leaving through top (scrolling down) → stay visible
+                    }
                 }
             });
         }, itemObserverOptions);
 
-        document.querySelectorAll('.section-header, .about-text, .skill-category, .timeline-item, .card-item, .congress-item, .project-card, .project-tape-card, .award-card').forEach(item => {
+        document.querySelectorAll('.section-header, .about-text, .skill-category, .timeline-item, .card-item, .congress-item, .project-card, .award-card').forEach(item => {
             itemObserver.observe(item);
+        });
+
+        // Carousel cards: pin once (no directional exit)
+        const tapeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    tapeObserver.unobserve(entry.target);
+                }
+            });
+        }, { root: null, threshold: 0.15 });
+
+        document.querySelectorAll('.project-tape-card').forEach(card => {
+            tapeObserver.observe(card);
         });
 
         // Active section detection for nav dots
