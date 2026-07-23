@@ -7,7 +7,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         :root {
             --bg-primary: #ffffff;
@@ -69,10 +68,6 @@
 
         /* Language switcher */
         .lang-switcher {
-            position: fixed;
-            top: 16px;
-            right: 24px;
-            z-index: 100;
             display: flex;
             gap: 4px;
             background: var(--bg-card);
@@ -830,69 +825,333 @@
             }
         }
 
-        /* PDF download button */
-        .pdf-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 16px;
-            padding: 10px 20px;
-            background: transparent;
-            border: 1.5px solid var(--accent-teal);
-            color: var(--accent-teal);
-            border-radius: 6px;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.9rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        /* Print styles — hide the webpage, show only #cv-print */
+        @media print {
+            body > *:not(#cv-print) {
+                display: none !important;
+            }
+            #cv-print {
+                display: block !important;
+            }
         }
 
-        .pdf-btn:hover {
+        /* View switcher (WEB / PDF) — mirrors lang-switcher exactly */
+        /* Switcher column — holds both lang and view switchers */
+        .switcher-col {
+            position: fixed;
+            top: 16px;
+            right: 24px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 6px;
+        }
+
+        .view-switcher {
+            display: flex;
+            gap: 4px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 4px;
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+        .view-btn {
+            padding: 6px 14px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+        .view-btn.active {
             background: var(--accent-teal);
             color: white;
         }
+        .view-btn:hover:not(.active) {
+            color: var(--text-primary);
+            background: var(--bg-secondary);
+        }
+    </style>
 
-        .pdf-btn svg {
-            width: 16px;
-            height: 16px;
+    <!-- ============================================================
+         PRINT / PDF STYLESHEET
+         Hidden from screen. Activated only during window.print().
+         ============================================================ -->
+    <style id="cv-print-styles">
+        /* --- Reset for print context --- */
+        #cv-print {
+            display: none; /* hidden on screen; shown only in @media print */
+            font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 9.5pt;
+            line-height: 1.5;
+            color: #1a202c;
+            background: white;
+        }
+
+        /* Colour palette matching Canva CV */
+        #cv-print {
+            --p: #7570b3;   /* purple  */
+            --t: #1b9e77;   /* teal    */
+            --lt: #e8f5f1;  /* light teal sidebar bg */
+            --mu: #4a5568;  /* muted   */
+            --bd: #e2e8f0;  /* border  */
+        }
+
+        /* ---- PAGE SETUP ---- */
+        @page {
+            size: A4 portrait;
+            margin: 0;
+        }
+
+        /* ---- PAGE 1: two-column cover ---- */
+        #cv-print .p1 {
+            width: 210mm;
+            min-height: 297mm;
+            display: flex;
+            page-break-after: always;
+        }
+
+        /* Sidebar */
+        #cv-print .sidebar {
+            width: 68mm;
+            min-height: 297mm;
+            background: #f0eff9;
+            padding: 22mm 7mm 16mm 8mm;
             flex-shrink: 0;
+            box-sizing: border-box;
         }
 
-        .pdf-btn.loading {
-            opacity: 0.6;
-            cursor: wait;
+        /* Top colour bar on sidebar */
+        #cv-print .sidebar-accent {
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--t), var(--p));
+            margin-bottom: 16mm;
+            border-radius: 2px;
         }
 
-        /* Print / PDF styles */
-        @media print {
-            .lang-switcher,
-            .section-nav,
-            .progress-bar,
-            .pdf-btn {
-                display: none !important;
-            }
-            body {
-                background: white;
-                color: black;
-            }
-            section {
-                opacity: 1 !important;
-                transform: none !important;
-                margin-bottom: 30px;
-            }
-            .card-item,
-            .congress-item,
-            .project-card,
-            .timeline-item,
-            .award-card,
-            .about-text,
-            .skill-category,
-            .section-header,
-            h3 {
-                opacity: 1 !important;
-                transform: none !important;
-            }
+        #cv-print .sidebar-name {
+            font-family: 'Alegreya', Georgia, serif;
+            font-size: 18pt;
+            font-weight: 700;
+            color: var(--p);
+            line-height: 1.1;
+            margin-bottom: 3mm;
+        }
+
+        #cv-print .sidebar-tagline {
+            font-size: 7.5pt;
+            color: var(--mu);
+            margin-bottom: 7mm;
+            line-height: 1.4;
+        }
+
+        #cv-print .sidebar-section-title {
+            font-size: 7pt;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--t);
+            margin: 5mm 0 2mm;
+            padding-bottom: 1mm;
+            border-bottom: 1px solid var(--t);
+        }
+
+        #cv-print .sidebar-contact-item {
+            font-size: 8pt;
+            color: var(--mu);
+            margin-bottom: 1.5mm;
+            display: flex;
+            align-items: flex-start;
+            gap: 3px;
+        }
+
+        #cv-print .sidebar-contact-item a {
+            color: var(--mu);
+            text-decoration: none;
+        }
+
+        #cv-print .skill-pill {
+            display: inline-block;
+            font-size: 7.5pt;
+            color: #1a202c;
+            background: white;
+            border: 1px solid var(--bd);
+            border-radius: 10px;
+            padding: 1mm 3mm;
+            margin: 0 1.5mm 1.5mm 0;
+            line-height: 1.4;
+        }
+
+        #cv-print .lang-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 8pt;
+            margin-bottom: 1.5mm;
+        }
+        #cv-print .lang-name { color: #1a202c; font-weight: 600; }
+        #cv-print .lang-level {
+            color: var(--p);
+            font-size: 7.5pt;
+            font-weight: 500;
+        }
+
+        #cv-print .member-item {
+            font-size: 7.5pt;
+            color: var(--mu);
+            margin-bottom: 1mm;
+            padding-left: 3mm;
+            position: relative;
+        }
+        #cv-print .member-item::before {
+            content: '·';
+            position: absolute;
+            left: 0;
+            color: var(--t);
+        }
+
+        /* Main column (page 1) */
+        #cv-print .main {
+            flex: 1;
+            padding: 14mm 10mm 10mm 9mm;
+            box-sizing: border-box;
+        }
+
+        /* ---- SHARED SECTION HEADING ---- */
+        #cv-print .cv-section-title {
+            font-family: 'Alegreya', Georgia, serif;
+            font-size: 12pt;
+            font-weight: 700;
+            color: var(--t);
+            letter-spacing: 0.02em;
+            margin: 0 0 1.5mm;
+            padding-bottom: 1.5mm;
+            border-bottom: 1.5px solid var(--bd);
+        }
+
+        /* ---- ABOUT (page 1 main) ---- */
+        #cv-print .about-box {
+            font-family: 'Alegreya', Georgia, serif;
+            font-size: 10pt;
+            color: #4a5568;
+            line-height: 1.65;
+            padding: 4mm 5mm;
+            background: #f8f8fc;
+            border-left: 3px solid var(--p);
+            border-radius: 0 5px 5px 0;
+            margin-bottom: 6mm;
+        }
+
+        /* ---- EXPERIENCE (page 1 main) ---- */
+        #cv-print .exp-item {
+            margin-bottom: 4mm;
+            padding-left: 4mm;
+            border-left: 2px solid var(--bd);
+        }
+        #cv-print .exp-role {
+            font-family: 'Alegreya', Georgia, serif;
+            font-size: 10.5pt;
+            font-weight: 600;
+            color: var(--p);
+            margin-bottom: 0.5mm;
+        }
+        #cv-print .exp-org {
+            font-size: 8.5pt;
+            color: var(--mu);
+            margin-bottom: 0.5mm;
+        }
+        #cv-print .exp-date {
+            font-size: 7.5pt;
+            color: #718096;
+            font-family: 'Inter', monospace;
+        }
+
+        /* ---- PAGE 2+: single-column ---- */
+        #cv-print .p2 {
+            width: 210mm;
+            padding: 14mm 16mm 14mm 16mm;
+            box-sizing: border-box;
+        }
+
+        /* ---- EDUCATION / CERTIFICATES / COURSES ---- */
+        #cv-print .edu-item {
+            margin-bottom: 3.5mm;
+            padding-left: 4mm;
+            border-left: 2px solid var(--bd);
+        }
+        #cv-print .edu-role {
+            font-family: 'Alegreya', Georgia, serif;
+            font-size: 10.5pt;
+            font-weight: 600;
+            color: var(--p);
+            margin-bottom: 0.5mm;
+        }
+        #cv-print .edu-org {
+            font-size: 8.5pt;
+            color: var(--mu);
+        }
+        #cv-print .edu-date {
+            font-size: 7.5pt;
+            color: #718096;
+            font-family: 'Inter', monospace;
+        }
+
+        #cv-print .sub-title {
+            font-family: 'Alegreya', Georgia, serif;
+            font-size: 10pt;
+            font-weight: 700;
+            color: var(--t);
+            margin: 5mm 0 2.5mm;
+        }
+
+        #cv-print .cert-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 2mm 3mm;
+            border: 1px solid var(--bd);
+            border-radius: 4px;
+            margin-bottom: 2mm;
+            background: #fafafa;
+        }
+        #cv-print .cert-name {
+            font-size: 8.5pt;
+            font-weight: 600;
+            color: var(--p);
+        }
+        #cv-print .cert-meta {
+            font-size: 7.5pt;
+            color: var(--mu);
+        }
+
+        /* ---- COMPETENCIAS (skills on p2) ---- */
+        #cv-print .skill-cat-label {
+            font-size: 7pt;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--mu);
+            margin: 4mm 0 1.5mm;
+        }
+        #cv-print .skill-pills-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5mm;
+            margin-bottom: 2mm;
+        }
+        #cv-print .skill-pill-p2 {
+            font-size: 8pt;
+            color: #1a202c;
+            background: white;
+            border: 1px solid var(--bd);
+            border-radius: 10px;
+            padding: 0.8mm 3.5mm;
         }
     </style>
 </head>
@@ -903,10 +1162,16 @@
         <div class="progress-fill" id="progressFill"></div>
     </div>
 
-    <!-- Language Switcher -->
-    <div class="lang-switcher">
-        <button class="lang-btn active" onclick="setLang('es')" id="btn-es">ES</button>
-        <button class="lang-btn" onclick="setLang('en')" id="btn-en">EN</button>
+    <!-- Switcher column: Language + View -->
+    <div class="switcher-col">
+        <div class="lang-switcher">
+            <button class="lang-btn active" onclick="setLang('es')" id="btn-es">ES</button>
+            <button class="lang-btn" onclick="setLang('en')" id="btn-en">EN</button>
+        </div>
+        <div class="view-switcher">
+            <button class="view-btn active" id="btn-web" onclick="setView('web')">WEB</button>
+            <button class="view-btn" id="btn-pdf" onclick="setView('pdf')">PDF</button>
+        </div>
     </div>
 
     <!-- Section Navigation Timeline -->
@@ -923,7 +1188,6 @@
 
     <div class="top-accent"></div>
 
-    <div id="pdf-root">
     <header>
         <div class="container">
             <h1 class="name">
@@ -949,14 +1213,6 @@
                 <span class="en">The Ghost in the Machine →</span>
             </a>
 
-            <br>
-            <button class="pdf-btn" id="pdf-btn" onclick="downloadPDF()">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-                </svg>
-                <span class="es">Descargar CV en PDF</span>
-                <span class="en">Download CV as PDF</span>
-            </button>
         </div>
     </header>
 
@@ -1256,7 +1512,133 @@
             </div>
         </section>
     </main>
-    </div><!-- end #pdf-root -->
+
+    <!-- ============================================================
+         HIDDEN CV PRINT DOCUMENT — only visible during window.print()
+         ============================================================ -->
+    <div id="cv-print">
+
+        <!-- PAGE 1: two-column -->
+        <div class="p1">
+
+            <!-- SIDEBAR -->
+            <div class="sidebar">
+                <div class="sidebar-accent"></div>
+                <div class="sidebar-name">Alejandro<br>Rujano</div>
+                <div class="sidebar-tagline" id="prt-tagline"></div>
+
+                <div class="sidebar-section-title" id="prt-contact-title"></div>
+                <div class="sidebar-contact-item">📧 <a href="mailto:xalerujano@gmail.com">xalerujano@gmail.com</a></div>
+                <div class="sidebar-contact-item">📞 649 581 731</div>
+
+                <div class="sidebar-section-title" id="prt-skills-title"></div>
+                <div id="prt-skills-programming"></div>
+
+                <div class="sidebar-section-title" id="prt-stats-title"></div>
+                <div id="prt-skills-stats"></div>
+
+                <div class="sidebar-section-title" id="prt-lang-title"></div>
+                <div class="lang-row"><span class="lang-name" id="prt-lang-es"></span><span class="lang-level">C2</span></div>
+                <div class="lang-row"><span class="lang-name" id="prt-lang-fr"></span><span class="lang-level">A2</span></div>
+
+                <div class="sidebar-section-title" id="prt-member-title"></div>
+                <div class="member-item">AEMCCO</div>
+                <div class="member-item">European Association of Methodology</div>
+                <div class="member-item">Royal Statistical Society</div>
+                <div class="member-item">Hablando de Ciencia</div>
+            </div>
+
+            <!-- MAIN -->
+            <div class="main">
+                <div class="cv-section-title" id="prt-about-title"></div>
+                <div class="about-box" id="prt-about-text"></div>
+
+                <div class="cv-section-title" id="prt-exp-title" style="margin-top:5mm;"></div>
+
+                <div class="exp-item">
+                    <div class="exp-role" id="prt-exp1-role"></div>
+                    <div class="exp-org">Centro de Humanización de la Salud</div>
+                    <div class="exp-date" id="prt-exp1-date"></div>
+                </div>
+                <div class="exp-item">
+                    <div class="exp-role" id="prt-exp2-role"></div>
+                    <div class="exp-org">Universidad Autónoma de Madrid</div>
+                    <div class="exp-date" id="prt-exp2-date"></div>
+                </div>
+                <div class="exp-item">
+                    <div class="exp-role" id="prt-exp3-role"></div>
+                    <div class="exp-org">El Mundo de las Llaves</div>
+                    <div class="exp-date" id="prt-exp3-date"></div>
+                </div>
+            </div>
+        </div><!-- end .p1 -->
+
+        <!-- PAGE 2: single-column — Education + Skills -->
+        <div class="p2">
+
+            <div class="cv-section-title" id="prt-edu-title"></div>
+
+            <div class="edu-item">
+                <div class="edu-role" id="prt-edu1-role"></div>
+                <div class="edu-org">UNED</div>
+                <div class="edu-date" id="prt-edu1-date"></div>
+            </div>
+            <div class="edu-item">
+                <div class="edu-role" id="prt-edu2-role"></div>
+                <div class="edu-org">UNED</div>
+                <div class="edu-date" id="prt-edu2-date"></div>
+            </div>
+
+            <div class="sub-title" id="prt-cert-title"></div>
+
+            <div class="cert-item">
+                <span class="cert-name" id="prt-cert1-name"></span>
+                <span class="cert-meta" id="prt-cert1-meta"></span>
+            </div>
+            <div class="cert-item">
+                <span class="cert-name" id="prt-cert2-name"></span>
+                <span class="cert-meta" id="prt-cert2-meta"></span>
+            </div>
+
+            <div class="sub-title" id="prt-courses-title"></div>
+
+            <div class="cert-item">
+                <span class="cert-name" id="prt-c1-name"></span>
+                <span class="cert-meta" id="prt-c1-meta"></span>
+            </div>
+            <div class="cert-item">
+                <span class="cert-name" id="prt-c2-name"></span>
+                <span class="cert-meta" id="prt-c2-meta"></span>
+            </div>
+            <div class="cert-item">
+                <span class="cert-name">Microsoft Power BI</span>
+                <span class="cert-meta">IBM &amp; Datahack · 40h · 2025</span>
+            </div>
+            <div class="cert-item">
+                <span class="cert-name" id="prt-c4-name"></span>
+                <span class="cert-meta">IBM &amp; Bejob · 60h · 2025</span>
+            </div>
+            <div class="cert-item">
+                <span class="cert-name" id="prt-c5-name"></span>
+                <span class="cert-meta">UNED · 11h · 2025</span>
+            </div>
+            <div class="cert-item">
+                <span class="cert-name" id="prt-c6-name"></span>
+                <span class="cert-meta" id="prt-c6-meta"></span>
+            </div>
+
+            <!-- COMPETENCIAS -->
+            <div class="cv-section-title" id="prt-comp-title" style="margin-top:6mm;"></div>
+
+            <div class="skill-cat-label" id="prt-prog-label"></div>
+            <div class="skill-pills-row" id="prt-prog-pills"></div>
+
+            <div class="skill-cat-label" id="prt-stat-label"></div>
+            <div class="skill-pills-row" id="prt-stat-pills"></div>
+
+        </div><!-- end .p2 -->
+
+    </div><!-- end #cv-print -->
 
     <footer>
         <div class="container">
@@ -1401,51 +1783,173 @@
             });
         });
 
-        // PDF download
+        // ── VIEW SWITCHER ─────────────────────────────────────────────────────
+        function setView(v) {
+            document.getElementById('btn-web').classList.toggle('active', v === 'web');
+            document.getElementById('btn-pdf').classList.toggle('active', v === 'pdf');
+            if (v === 'pdf') downloadPDF();
+            // Snap back to WEB after triggering print
+            setTimeout(() => {
+                document.getElementById('btn-web').classList.add('active');
+                document.getElementById('btn-pdf').classList.remove('active');
+            }, 500);
+        }
+
+        // ── PDF / PRINT ───────────────────────────────────────────────────────
         function downloadPDF() {
-            const btn = document.getElementById('pdf-btn');
-            btn.classList.add('loading');
-            btn.querySelector('span.es').textContent = 'Generando PDF…';
-            btn.querySelector('span.en').textContent = 'Generating PDF…';
+            const isEn = document.body.classList.contains('lang-en');
 
-            // Force all animated elements visible before capture
-            document.querySelectorAll(
-                '.section-header, h3, .timeline-item, .card-item, .congress-item, ' +
-                '.project-card, .award-card, .about-text, .skill-category'
-            ).forEach(el => el.classList.add('in-view'));
-
-            // Determine active language for filename
-            const lang = document.body.classList.contains('lang-en') ? 'en' : 'es';
-            const filename = lang === 'en'
-                ? 'Alejandro_Rujano_CV.pdf'
-                : 'Alejandro_Rujano_CV.pdf';
-
-            const element = document.getElementById('pdf-root');
-
-            const opt = {
-                margin: [12, 14, 12, 14],
-                filename: filename,
-                image: { type: 'jpeg', quality: 0.97 },
-                html2canvas: {
-                    scale: 2,
-                    useCORS: true,
-                    letterRendering: true,
-                    scrollX: 0,
-                    scrollY: 0
-                },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-                pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+            const t = {
+                tagline:       isEn ? 'Psychology student · Data analyst · Science communicator'
+                                    : 'Estudiante de Psicología · Analista de datos · Divulgador científico',
+                contactTitle:  isEn ? 'Contact'               : 'Contacto',
+                skillsTitle:   isEn ? 'Programming'           : 'Programación',
+                statsTitle:    isEn ? 'Statistical software'  : 'Software estadístico',
+                langTitle:     isEn ? 'Languages'             : 'Idiomas',
+                memberTitle:   isEn ? 'Memberships'           : 'Membresías',
+                aboutTitle:    isEn ? 'About Me'              : 'Información personal',
+                aboutText:     isEn
+                    ? 'Young Psychology student interested in statistics, psychometrics and quantitative methodology. I work as a freelance data analyst, teach private classes in quantitative methods, and engage in science communication through Hablando de Ciencia.'
+                    : 'Soy un joven estudiante de Psicología interesado en estadística, psicometría y metodología en general. Trabajo como analista de datos freelance e imparto clases particulares de métodos cuantitativos, y realizo actividades de divulgación científica, colaborando con Hablando de Ciencia.',
+                expTitle:      isEn ? 'Experience'            : 'Experiencia',
+                exp1Role:      isEn ? 'Research Technician'   : 'Ayudante técnico de investigación',
+                exp1Date:      isEn ? 'May 2025 — Nov 2025'   : 'Mayo 2025 — Noviembre 2025',
+                exp2Role:      isEn ? 'Research Technician'   : 'Ayudante técnico de investigación',
+                exp2Date:      isEn ? 'May 2024 — Jun 2024'   : 'Mayo 2024 — Junio 2024',
+                exp3Role:      isEn ? 'Data Analyst Consultant': 'Consultor analista de datos',
+                exp3Date:      isEn ? 'Aug 2019 — Jan 2023'   : 'Agosto 2019 — Enero 2023',
+                eduTitle:      isEn ? 'Education'             : 'Formación',
+                edu1Role:      isEn ? "Bachelor's in Psychology" : 'Grado en Psicología',
+                edu1Date:      isEn ? '2023 — Present'        : '2023 — Actualidad',
+                edu2Role:      isEn ? 'Microbachelor in Mathematics' : 'Microgrado en Matemáticas',
+                edu2Date:      isEn ? '2025 — Present'        : '2025 — Actualidad',
+                certTitle:     isEn ? 'Professional Certificates' : 'Certificados profesionales',
+                cert1Name:     isEn ? 'IBM Data Analyst'      : 'Analista de datos de IBM',
+                cert1Meta:     'IBM · 60h · 2025',
+                cert2Name:     isEn ? 'Google Data Analyst'   : 'Analista de datos de Google',
+                cert2Meta:     'Google · 260h · 2024',
+                coursesTitle:  isEn ? 'Courses'               : 'Cursos',
+                c1Name:        isEn ? 'Meta-analysis'         : 'Metaanálisis',
+                c1Meta:        'Universitat Autònoma de Barcelona · 100h · 2026',
+                c2Name:        isEn ? 'Causal Inference via DAGs' : 'Inferencia causal mediante DAGs',
+                c2Meta:        isEn ? 'Harvard University · 30h · 2025' : 'Universidad de Harvard · 30h · 2025',
+                c4Name:        isEn ? 'Python Programming'    : 'Programación en Python',
+                c5Name:        isEn ? 'Bioarchaeology of Care': 'Bioarqueología de los cuidados',
+                c6Name:        isEn ? 'Assessment of Dyscalculia' : 'Evaluación e intervención de la discalculia',
+                c6Meta:        isEn ? 'Spanish Assoc. of Health Psychology · 20h · 2025'
+                                    : 'Asoc. Española de Psicología Sanitaria · 20h · 2025',
+                compTitle:     isEn ? 'Skills'                : 'Competencias',
+                progLabel:     isEn ? 'Programming & Analysis': 'Programación y análisis',
+                statLabel:     isEn ? 'Statistical software'  : 'Software estadístico',
+                langEs:        isEn ? 'Spanish'               : 'Español',
+                langFr:        isEn ? 'French'                : 'Francés',
             };
 
-            html2pdf()
-                .set(opt)
-                .from(element)
-                .save()
-                .then(() => {
-                    btn.classList.remove('loading');
-                    btn.querySelector('span.es').textContent = 'Descargar CV en PDF';
-                    btn.querySelector('span.en').textContent = 'Download CV as PDF';
-                });
+            function set(id, val) {
+                const el = document.getElementById(id);
+                if (el) el.textContent = val;
+            }
+            function pills(id, items, cls) {
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.innerHTML = items.map(i => `<span class="${cls}">${i}</span>`).join('');
+            }
+
+            set('prt-tagline',       t.tagline);
+            set('prt-contact-title', t.contactTitle);
+            set('prt-skills-title',  t.skillsTitle);
+            set('prt-stats-title',   t.statsTitle);
+            set('prt-lang-title',    t.langTitle);
+            set('prt-member-title',  t.memberTitle);
+            set('prt-about-title',   t.aboutTitle);
+            set('prt-about-text',    t.aboutText);
+            set('prt-exp-title',     t.expTitle);
+            set('prt-exp1-role',     t.exp1Role);
+            set('prt-exp1-date',     t.exp1Date);
+            set('prt-exp2-role',     t.exp2Role);
+            set('prt-exp2-date',     t.exp2Date);
+            set('prt-exp3-role',     t.exp3Role);
+            set('prt-exp3-date',     t.exp3Date);
+            set('prt-edu-title',     t.eduTitle);
+            set('prt-edu1-role',     t.edu1Role);
+            set('prt-edu1-date',     t.edu1Date);
+            set('prt-edu2-role',     t.edu2Role);
+            set('prt-edu2-date',     t.edu2Date);
+            set('prt-cert-title',    t.certTitle);
+            set('prt-cert1-name',    t.cert1Name);
+            set('prt-cert1-meta',    t.cert1Meta);
+            set('prt-cert2-name',    t.cert2Name);
+            set('prt-cert2-meta',    t.cert2Meta);
+            set('prt-courses-title', t.coursesTitle);
+            set('prt-c1-name',       t.c1Name);
+            set('prt-c1-meta',       t.c1Meta);
+            set('prt-c2-name',       t.c2Name);
+            set('prt-c2-meta',       t.c2Meta);
+            set('prt-c4-name',       t.c4Name);
+            set('prt-c5-name',       t.c5Name);
+            set('prt-c6-name',       t.c6Name);
+            set('prt-c6-meta',       t.c6Meta);
+            set('prt-comp-title',    t.compTitle);
+            set('prt-prog-label',    t.progLabel);
+            set('prt-stat-label',    t.statLabel);
+            set('prt-lang-es',       t.langEs);
+            set('prt-lang-fr',       t.langFr);
+
+            const progItems = ['R', 'Python', 'SQL', isEn ? 'Advanced Excel' : 'Excel avanzado', 'Power BI', 'Tableau'];
+            const statItems = ['JASP', 'Jamovi', 'Minitab', 'SPSS', 'Stata'];
+            pills('prt-skills-programming', progItems, 'skill-pill');
+            pills('prt-skills-stats',       statItems, 'skill-pill');
+            pills('prt-prog-pills',         progItems, 'skill-pill-p2');
+            pills('prt-stat-pills',         statItems, 'skill-pill-p2');
+
+            // Collect all inline <style> blocks
+            const styles = Array.from(document.querySelectorAll('style'))
+                .map(s => s.textContent).join('\n');
+
+            const printHTML = document.getElementById('cv-print').outerHTML;
+
+            const fullHTML = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+@page { size: A4 portrait; margin: 0; }
+body { margin: 0; padding: 0; background: white; }
+${styles}
+#cv-print { display: block !important; }
+</style>
+</head>
+<body>${printHTML}</body>
+</html>`;
+
+            // Remove any previous print iframe
+            const oldIframe = document.getElementById('_cv_print_iframe');
+            if (oldIframe) oldIframe.remove();
+
+            const iframe = document.createElement('iframe');
+            iframe.id = '_cv_print_iframe';
+            iframe.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:210mm;height:297mm;border:0;opacity:0;';
+            document.body.appendChild(iframe);
+
+            // srcdoc keeps the iframe same-origin — contentWindow.print() is never blocked
+            iframe.srcdoc = fullHTML;
+
+            iframe.onload = () => {
+                // Give Google Fonts ~1s to render inside the iframe
+                setTimeout(() => {
+                    try {
+                        iframe.contentWindow.focus();
+                        iframe.contentWindow.print();
+                        iframe.contentWindow.addEventListener('afterprint', () => iframe.remove());
+                        setTimeout(() => { if (document.getElementById('_cv_print_iframe')) iframe.remove(); }, 60000);
+                    } catch (e) {
+                        // Last-resort fallback: open in new tab so the user can Ctrl+P manually
+                        const w = window.open('');
+                        if (w) { w.document.write(fullHTML); w.document.close(); }
+                    }
+                }, 1000);
+            };
         }
     </script>
 </body>
