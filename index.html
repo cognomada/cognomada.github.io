@@ -37,6 +37,7 @@
             color: var(--text-primary);
             line-height: 1.7;
             font-size: 15px;
+            padding-top: 7px;
         }
 
         body.lang-en .es { display: none; }
@@ -51,7 +52,7 @@
         /* Reading progress bar */
         .progress-bar {
             position: fixed;
-            top: 0;
+            top: 4px;
             left: 0;
             width: 100%;
             height: 3px;
@@ -68,6 +69,10 @@
 
         /* Language switcher */
         .lang-switcher {
+            position: fixed;
+            top: 16px;
+            right: 24px;
+            z-index: 100;
             display: flex;
             gap: 4px;
             background: var(--bg-card);
@@ -162,10 +167,15 @@
 
         /* Top accent */
         .top-accent {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
             height: 4px;
             background: linear-gradient(90deg, var(--accent-teal), var(--accent-purple), #66a61e, var(--accent-teal));
             background-size: 300% 100%;
             animation: shimmer 8s ease infinite;
+            z-index: 101;
         }
 
         @keyframes shimmer {
@@ -297,6 +307,14 @@
             margin-bottom: 28px;
             padding-bottom: 12px;
             border-bottom: 2px solid var(--border);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .section-header.in-view {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         h2 {
@@ -329,7 +347,7 @@
             border-radius: 0 8px 8px 0;
             opacity: 0;
             transform: translateY(20px);
-            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: opacity 0.6s ease, transform 0.6s ease;
         }
 
         .about-text.in-view {
@@ -367,53 +385,12 @@
             margin-bottom: 20px;
             opacity: 0;
             transform: translateY(20px);
-            transition: all 0.6s ease;
+            transition: opacity 0.6s ease, transform 0.6s ease;
         }
 
         .skill-category.in-view {
             opacity: 1;
             transform: translateY(0);
-        }
-
-        .skill-category.in-view:nth-child(1) { transition-delay: 0.05s; }
-        .skill-category.in-view:nth-child(2) { transition-delay: 0.1s; }
-        .skill-category.in-view:nth-child(3) { transition-delay: 0.15s; }
-        .skill-category.in-view:nth-child(4) { transition-delay: 0.2s; }
-
-        /* Section & subsection headers animate too */
-        .section-header {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .section-header.in-view {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        h3 {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        h3.in-view {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Disable transitions during initial load to prevent flash */
-        body.no-anim-init .timeline-item,
-        body.no-anim-init .card-item,
-        body.no-anim-init .congress-item,
-        body.no-anim-init .project-card,
-        body.no-anim-init .award-card,
-        body.no-anim-init .about-text,
-        body.no-anim-init .skill-category,
-        body.no-anim-init .section-header,
-        body.no-anim-init h3 {
-            transition: none !important;
         }
 
         .skill-category-label {
@@ -453,11 +430,6 @@
             opacity: 1;
             transform: translateX(0);
         }
-
-        .timeline-item.in-view:nth-child(1) { transition-delay: 0.1s; }
-        .timeline-item.in-view:nth-child(2) { transition-delay: 0.2s; }
-        .timeline-item.in-view:nth-child(3) { transition-delay: 0.3s; }
-        .timeline-item.in-view:nth-child(4) { transition-delay: 0.4s; }
 
         .timeline-item::before {
             content: '';
@@ -520,13 +492,6 @@
             transform: translateY(0);
         }
 
-        .card-item.in-view:nth-child(1) { transition-delay: 0.1s; }
-        .card-item.in-view:nth-child(2) { transition-delay: 0.15s; }
-        .card-item.in-view:nth-child(3) { transition-delay: 0.2s; }
-        .card-item.in-view:nth-child(4) { transition-delay: 0.25s; }
-        .card-item.in-view:nth-child(5) { transition-delay: 0.3s; }
-        .card-item.in-view:nth-child(6) { transition-delay: 0.35s; }
-
         .card-item:hover {
             border-color: var(--accent-purple);
             transform: translateX(4px);
@@ -584,13 +549,6 @@
             transform: translateY(0);
         }
 
-        .congress-item.in-view:nth-child(1) { transition-delay: 0.1s; }
-        .congress-item.in-view:nth-child(2) { transition-delay: 0.15s; }
-        .congress-item.in-view:nth-child(3) { transition-delay: 0.2s; }
-        .congress-item.in-view:nth-child(4) { transition-delay: 0.25s; }
-        .congress-item.in-view:nth-child(5) { transition-delay: 0.3s; }
-        .congress-item.in-view:nth-child(6) { transition-delay: 0.35s; }
-
         .congress-item:hover {
             border-color: var(--accent-purple);
             transform: translateX(4px);
@@ -647,7 +605,7 @@
             display: flex;
             align-items: center;
             gap: 16px;
-            transition: all 0.3s ease;
+            transition: all 0.3s ease, opacity 0.6s ease, transform 0.6s ease;
             box-shadow: 0 1px 3px var(--shadow);
             opacity: 0;
             transform: translateY(20px);
@@ -703,9 +661,6 @@
             opacity: 1;
             transform: translateY(0);
         }
-
-        .project-card.in-view:nth-child(1) { transition-delay: 0.1s; }
-        .project-card.in-view:nth-child(2) { transition-delay: 0.2s; }
 
         .project-card:hover {
             border-color: var(--accent-purple);
@@ -825,334 +780,282 @@
             }
         }
 
-        /* Print styles — hide the webpage, show only #cv-print */
+        /* Print styles */
         @media print {
-            body > *:not(#cv-print) {
+            .lang-switcher,
+            .section-nav,
+            .progress-bar {
                 display: none !important;
             }
-            #cv-print {
-                display: block !important;
+            body {
+                background: white;
+                color: black;
+            }
+            section {
+                opacity: 1 !important;
+                transform: none !important;
+                margin-bottom: 30px;
+            }
+            .card-item,
+            .congress-item,
+            .project-card,
+            .timeline-item {
+                opacity: 1 !important;
+                transform: none !important;
             }
         }
 
-        /* View switcher (WEB / PDF) — mirrors lang-switcher exactly */
-        /* Switcher column — holds both lang and view switchers */
-        .switcher-col {
-            position: fixed;
-            top: 16px;
-            right: 24px;
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 6px;
+        /* ── Communication-type badge ───────────────────────────── */
+        .comm-badge {
+            display: inline-block;
+            padding: 2px 10px;
+            background: transparent;
+            border: 1.5px solid var(--accent-purple);
+            color: var(--accent-purple);
+            border-radius: 4px;
+            font-size: 0.72rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            vertical-align: middle;
+            white-space: nowrap;
         }
 
-        .view-switcher {
+        /* ── Project tape (swipeable carousel) ─────────────────── */
+        .project-tape {
+            position: relative;
+            margin: 0 -24px;
+            padding: 0 24px;
+        }
+
+        .project-tape-track {
             display: flex;
-            gap: 4px;
+            gap: 16px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            padding: 8px 4px 24px;
+            scrollbar-width: none;
+        }
+
+        .project-tape-track::-webkit-scrollbar {
+            display: none;
+        }
+
+        .project-tape-card {
+            flex: 0 0 85%;
+            max-width: 360px;
+            scroll-snap-align: center;
+            padding: 24px;
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 4px;
+            border-radius: 12px;
             box-shadow: 0 2px 8px var(--shadow);
+            transition: all 0.3s ease, opacity 0.6s ease, transform 0.6s ease;
+            opacity: 0;
+            transform: translateY(20px);
         }
-        .view-btn {
-            padding: 6px 14px;
-            border: none;
-            background: transparent;
+
+        .project-tape-card.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .project-tape-card:hover {
+            border-color: var(--accent-purple);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        }
+
+        .project-tape-year {
+            font-size: 0.75rem;
+            color: var(--accent-teal);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .project-tape-title {
+            font-family: 'Alegreya', serif;
+            font-weight: 600;
+            color: var(--accent-purple);
+            font-size: 1.05rem;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .project-tape-authors {
+            font-size: 0.8rem;
             color: var(--text-muted);
-            font-family: 'Inter', sans-serif;
+            margin-bottom: 12px;
+        }
+
+        .project-tape-link {
             font-size: 0.85rem;
-            font-weight: 500;
-            cursor: pointer;
-            border-radius: 6px;
+            color: var(--accent-purple);
+            text-decoration: none;
+            border-bottom: 1px dotted var(--accent-purple);
+        }
+
+        .project-tape-link:hover {
+            border-bottom-style: solid;
+        }
+
+        .project-tape-hint {
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: -8px;
+            padding-bottom: 8px;
+            letter-spacing: 0.05em;
+        }
+
+        @media (min-width: 600px) {
+            .project-tape-card {
+                flex: 0 0 45%;
+            }
+        }
+
+        /* Prev/next buttons: only shown for mouse-driven devices (desktop),
+           where the track can't be swiped. Touch devices already scroll it
+           by finger, so the buttons stay hidden there. */
+        .tape-nav {
+            display: none;
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            .tape-nav {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: absolute;
+                top: 45%;
+                transform: translateY(-50%);
+                width: 38px;
+                height: 38px;
+                border-radius: 50%;
+                border: 1px solid var(--border);
+                background: var(--bg-card);
+                color: var(--accent-purple);
+                font-size: 1.3rem;
+                line-height: 1;
+                cursor: pointer;
+                box-shadow: 0 2px 8px var(--shadow);
+                z-index: 5;
+                transition: all 0.2s ease;
+            }
+
+            .tape-nav-prev { left: -6px; }
+            .tape-nav-next { right: -6px; }
+
+            .tape-nav:hover {
+                background: var(--accent-purple);
+                border-color: var(--accent-purple);
+                color: white;
+            }
+
+            .tape-nav:disabled {
+                opacity: 0.3;
+                cursor: default;
+                pointer-events: none;
+            }
+
+            /* Give the track room so cards don't sit under the buttons */
+            .project-tape {
+                padding-left: 40px;
+                padding-right: 40px;
+            }
+        }
+
+        /* ── Timeline animation for ALL timeline sections ───────── */
+        #publications .timeline::before,
+        #congresses .timeline::before,
+        #education .timeline::before,
+        #experience .timeline::before {
+            left: 14px;
+        }
+
+        #publications .timeline-item,
+        #congresses .timeline-item,
+        #education .timeline-item,
+        #experience .timeline-item {
+            padding-left: 44px;
+        }
+
+        #publications .timeline-item::before,
+        #congresses .timeline-item::before,
+        #education .timeline-item::before,
+        #experience .timeline-item::before {
+            left: 8px;
+        }
+
+        @media (max-width: 768px) {
+            #publications .timeline::before,
+            #congresses .timeline::before,
+            #education .timeline::before,
+            #experience .timeline::before {
+                left: 10px;
+            }
+            #publications .timeline-item,
+            #congresses .timeline-item,
+            #education .timeline-item,
+            #experience .timeline-item {
+                padding-left: 34px;
+            }
+            #publications .timeline-item::before,
+            #congresses .timeline-item::before,
+            #education .timeline-item::before,
+            #experience .timeline-item::before {
+                left: 4px;
+            }
+        }
+
+
+        /* ── Publications & Congresses links ───────────────────── */
+        #publications .timeline-org a,
+        #congresses .timeline-date a,
+        #congresses .timeline-role a {
+            color: var(--accent-purple);
+            text-decoration: none;
+            border-bottom: 1px dotted var(--accent-purple);
             transition: all 0.2s ease;
         }
-        .view-btn.active {
-            background: var(--accent-teal);
-            color: white;
+
+        #publications .timeline-org a:hover,
+        #congresses .timeline-date a:hover,
+        #congresses .timeline-role a:hover {
+            color: var(--accent-teal);
+            border-bottom-style: solid;
         }
-        .view-btn:hover:not(.active) {
+
+        #publications .timeline-org em,
+        #publications .timeline-org i {
+            font-style: italic;
             color: var(--text-primary);
-            background: var(--bg-secondary);
-        }
-    </style>
-
-    <!-- ============================================================
-         PRINT / PDF STYLESHEET
-         Hidden from screen. Activated only during window.print().
-         ============================================================ -->
-    <style id="cv-print-styles">
-        /* --- Reset for print context --- */
-        #cv-print {
-            display: none; /* hidden on screen; shown only in @media print */
-            font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 9.5pt;
-            line-height: 1.5;
-            color: #1a202c;
-            background: white;
         }
 
-        /* Colour palette matching Canva CV */
-        #cv-print {
-            --p: #7570b3;   /* purple  */
-            --t: #1b9e77;   /* teal    */
-            --lt: #e8f5f1;  /* light teal sidebar bg */
-            --mu: #4a5568;  /* muted   */
-            --bd: #e2e8f0;  /* border  */
-        }
 
-        /* ---- PAGE SETUP ---- */
-        @page {
-            size: A4 portrait;
-            margin: 0;
-        }
-
-        /* ---- PAGE 1: two-column cover ---- */
-        #cv-print .p1 {
-            width: 210mm;
-            min-height: 297mm;
-            display: flex;
-            page-break-after: always;
-        }
-
-        /* Sidebar */
-        #cv-print .sidebar {
-            width: 68mm;
-            min-height: 297mm;
-            background: #f0eff9;
-            padding: 22mm 7mm 16mm 8mm;
-            flex-shrink: 0;
-            box-sizing: border-box;
-        }
-
-        /* Top colour bar on sidebar */
-        #cv-print .sidebar-accent {
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--t), var(--p));
-            margin-bottom: 16mm;
-            border-radius: 2px;
-        }
-
-        #cv-print .sidebar-name {
-            font-family: 'Alegreya', Georgia, serif;
-            font-size: 18pt;
-            font-weight: 700;
-            color: var(--p);
-            line-height: 1.1;
-            margin-bottom: 3mm;
-        }
-
-        #cv-print .sidebar-tagline {
-            font-size: 7.5pt;
-            color: var(--mu);
-            margin-bottom: 7mm;
-            line-height: 1.4;
-        }
-
-        #cv-print .sidebar-section-title {
-            font-size: 7pt;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--t);
-            margin: 5mm 0 2mm;
-            padding-bottom: 1mm;
-            border-bottom: 1px solid var(--t);
-        }
-
-        #cv-print .sidebar-contact-item {
-            font-size: 8pt;
-            color: var(--mu);
-            margin-bottom: 1.5mm;
-            display: flex;
-            align-items: flex-start;
-            gap: 3px;
-        }
-
-        #cv-print .sidebar-contact-item a {
-            color: var(--mu);
-            text-decoration: none;
-        }
-
-        #cv-print .skill-pill {
+        /* ── Project type badge ────────────────────────────────── */
+        .project-badge {
             display: inline-block;
-            font-size: 7.5pt;
-            color: #1a202c;
-            background: white;
-            border: 1px solid var(--bd);
-            border-radius: 10px;
-            padding: 1mm 3mm;
-            margin: 0 1.5mm 1.5mm 0;
-            line-height: 1.4;
-        }
-
-        #cv-print .lang-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 8pt;
-            margin-bottom: 1.5mm;
-        }
-        #cv-print .lang-name { color: #1a202c; font-weight: 600; }
-        #cv-print .lang-level {
-            color: var(--p);
-            font-size: 7.5pt;
-            font-weight: 500;
-        }
-
-        #cv-print .member-item {
-            font-size: 7.5pt;
-            color: var(--mu);
-            margin-bottom: 1mm;
-            padding-left: 3mm;
-            position: relative;
-        }
-        #cv-print .member-item::before {
-            content: '·';
-            position: absolute;
-            left: 0;
-            color: var(--t);
-        }
-
-        /* Main column (page 1) */
-        #cv-print .main {
-            flex: 1;
-            padding: 14mm 10mm 10mm 9mm;
-            box-sizing: border-box;
-        }
-
-        /* ---- SHARED SECTION HEADING ---- */
-        #cv-print .cv-section-title {
-            font-family: 'Alegreya', Georgia, serif;
-            font-size: 12pt;
-            font-weight: 700;
-            color: var(--t);
-            letter-spacing: 0.02em;
-            margin: 0 0 1.5mm;
-            padding-bottom: 1.5mm;
-            border-bottom: 1.5px solid var(--bd);
-        }
-
-        /* ---- ABOUT (page 1 main) ---- */
-        #cv-print .about-box {
-            font-family: 'Alegreya', Georgia, serif;
-            font-size: 10pt;
-            color: #4a5568;
-            line-height: 1.65;
-            padding: 4mm 5mm;
-            background: #f8f8fc;
-            border-left: 3px solid var(--p);
-            border-radius: 0 5px 5px 0;
-            margin-bottom: 6mm;
-        }
-
-        /* ---- EXPERIENCE (page 1 main) ---- */
-        #cv-print .exp-item {
-            margin-bottom: 4mm;
-            padding-left: 4mm;
-            border-left: 2px solid var(--bd);
-        }
-        #cv-print .exp-role {
-            font-family: 'Alegreya', Georgia, serif;
-            font-size: 10.5pt;
-            font-weight: 600;
-            color: var(--p);
-            margin-bottom: 0.5mm;
-        }
-        #cv-print .exp-org {
-            font-size: 8.5pt;
-            color: var(--mu);
-            margin-bottom: 0.5mm;
-        }
-        #cv-print .exp-date {
-            font-size: 7.5pt;
-            color: #718096;
-            font-family: 'Inter', monospace;
-        }
-
-        /* ---- PAGE 2+: single-column ---- */
-        #cv-print .p2 {
-            width: 210mm;
-            padding: 14mm 16mm 14mm 16mm;
-            box-sizing: border-box;
-        }
-
-        /* ---- EDUCATION / CERTIFICATES / COURSES ---- */
-        #cv-print .edu-item {
-            margin-bottom: 3.5mm;
-            padding-left: 4mm;
-            border-left: 2px solid var(--bd);
-        }
-        #cv-print .edu-role {
-            font-family: 'Alegreya', Georgia, serif;
-            font-size: 10.5pt;
-            font-weight: 600;
-            color: var(--p);
-            margin-bottom: 0.5mm;
-        }
-        #cv-print .edu-org {
-            font-size: 8.5pt;
-            color: var(--mu);
-        }
-        #cv-print .edu-date {
-            font-size: 7.5pt;
-            color: #718096;
-            font-family: 'Inter', monospace;
-        }
-
-        #cv-print .sub-title {
-            font-family: 'Alegreya', Georgia, serif;
-            font-size: 10pt;
-            font-weight: 700;
-            color: var(--t);
-            margin: 5mm 0 2.5mm;
-        }
-
-        #cv-print .cert-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            padding: 2mm 3mm;
-            border: 1px solid var(--bd);
+            padding: 2px 10px;
+            background: transparent;
+            border: 1.5px solid var(--accent-purple);
+            color: var(--accent-purple);
             border-radius: 4px;
-            margin-bottom: 2mm;
-            background: #fafafa;
-        }
-        #cv-print .cert-name {
-            font-size: 8.5pt;
-            font-weight: 600;
-            color: var(--p);
-        }
-        #cv-print .cert-meta {
-            font-size: 7.5pt;
-            color: var(--mu);
+            font-size: 0.72rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            vertical-align: middle;
+            white-space: nowrap;
+            margin-bottom: 8px;
         }
 
-        /* ---- COMPETENCIAS (skills on p2) ---- */
-        #cv-print .skill-cat-label {
-            font-size: 7pt;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--mu);
-            margin: 4mm 0 1.5mm;
+        .project-badge .es, .project-badge .en {
+            display: inline;
         }
-        #cv-print .skill-pills-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5mm;
-            margin-bottom: 2mm;
-        }
-        #cv-print .skill-pill-p2 {
-            font-size: 8pt;
-            color: #1a202c;
-            background: white;
-            border: 1px solid var(--bd);
-            border-radius: 10px;
-            padding: 0.8mm 3.5mm;
-        }
+
     </style>
 </head>
 <body class="lang-es">
@@ -1162,16 +1065,10 @@
         <div class="progress-fill" id="progressFill"></div>
     </div>
 
-    <!-- Switcher column: Language + View -->
-    <div class="switcher-col">
-        <div class="lang-switcher">
-            <button class="lang-btn active" onclick="setLang('es')" id="btn-es">ES</button>
-            <button class="lang-btn" onclick="setLang('en')" id="btn-en">EN</button>
-        </div>
-        <div class="view-switcher">
-            <button class="view-btn active" id="btn-web" onclick="setView('web')">WEB</button>
-            <button class="view-btn" id="btn-pdf" onclick="setView('pdf')">PDF</button>
-        </div>
+    <!-- Language Switcher -->
+    <div class="lang-switcher">
+        <button class="lang-btn active" onclick="setLang('es')" id="btn-es">ES</button>
+        <button class="lang-btn" onclick="setLang('en')" id="btn-en">EN</button>
     </div>
 
     <!-- Section Navigation Timeline -->
@@ -1212,7 +1109,6 @@
                 <span class="es">El Fantasma en la Máquina →</span>
                 <span class="en">The Ghost in the Machine →</span>
             </a>
-
         </div>
     </header>
 
@@ -1224,8 +1120,8 @@
                 <h2><span class="es">Sobre mí</span><span class="en">About</span></h2>
             </div>
             <p class="about-text">
-                <span class="es">Soy un joven investigador de las ciencias sociales acostumbrado a preguntarse si los números de verdad representan lo que las personas creen que representan. Esta inquietud se refleja en mis intereses, que abarcan la invarianza de medida (es decir, si las medidas utilizadas carecen de sesgos) y la inferencia causal, y en mi pasatiempo como «activista científico» conectando los puntos entre la ciencia y la sociedad en mi blog personal.</span>
-                <span class="en">I'm a young social-science researcher with the habit of pondering the question: do the numbers truly mean what people think they mean? This concern has shaped my interests, which span measurement invariance (i.e., whether measures are bias-free) and causal inference, and my hobby as a "scientific activist" — connecting the dots between science and society on my personal blog.</span>
+                <span class="es">Soy un joven estudiante de Psicología interesado en estadística, psicometría y metodología en general. Trabajo como analista de datos freelance e imparto clases particulares de métodos cuantitativos. También realizo actividades de divulgación científica, colaborando con <em>Hablando de Ciencia</em>.</span>
+                <span class="en">I am a young Psychology student interested in statistics, psychometrics, and methodology in general. I work as a freelance data analyst and teach private lessons in quantitative methods. I also engage in science communication activities, collaborating with <em>Hablando de Ciencia</em>.</span>
             </p>
         </section>
 
@@ -1326,44 +1222,44 @@
 
             <div style="margin-top: 32px;">
                 <h3 style="margin-top: 32px;"><span class="es">Certificados profesionales</span><span class="en">Professional Certificates</span></h3>
-                <div class="card-list">
-                    <div class="card-item">
-                        <div class="card-title"><span class="es">Analista de datos de IBM</span><span class="en">IBM Data Analyst</span></div>
-                        <div class="card-meta">2025 · 60 <span class="es">horas</span><span class="en">hours</span> · <a href="certificates/CP%20Analista%20de%20datos%20de%20IBM.pdf" class="cert-link" target="_blank"><span class="es">Ver certificado →</span><span class="en">See certificate →</span></a></div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-role"><span class="es">Analista de datos de IBM</span><span class="en">IBM Data Analyst</span></div>
+                        <div class="timeline-org">2025 · 60 <span class="es">h</span><span class="en">h</span> · <a href="certificates/CP%20Analista%20de%20datos%20de%20IBM.pdf" class="cert-link" target="_blank"><span class="es">Ver certificado →</span><span class="en">See certificate →</span></a></div>
                     </div>
-                    <div class="card-item">
-                        <div class="card-title"><span class="es">Analista de datos de Google</span><span class="en">Google Data Analyst</span></div>
-                        <div class="card-meta">2024 · 260 <span class="es">horas</span><span class="en">hours</span> · <a href="https://coursera.org/verify/professional-cert/R2BCHNGGOF5D" class="cert-link" target="_blank"><span class="es">Ver certificado →</span><span class="en">See certificate →</span></a></div>
+                    <div class="timeline-item">
+                        <div class="timeline-role"><span class="es">Analista de datos de Google</span><span class="en">Google Data Analyst</span></div>
+                        <div class="timeline-org">2024 · 260 <span class="es">h</span><span class="en">h</span> · <a href="https://coursera.org/verify/professional-cert/R2BCHNGGOF5D" class="cert-link" target="_blank"><span class="es">Ver certificado →</span><span class="en">See certificate →</span></a></div>
                     </div>
                 </div>
             </div>
 
             <div style="margin-top: 24px;">
                 <h3 style="margin-top: 24px;"><span class="es">Cursos</span><span class="en">Courses</span></h3>
-                <div class="card-list">
-                    <div class="card-item">
-                        <div class="card-title"><span class="es">Metaanálisis</span><span class="en">Meta-analysis</span></div>
-                        <div class="card-meta">100 <span class="es">horas</span><span class="en">hours</span> · <span class="es">Universitat Autònoma de Barcelona</span><span class="en">Universitat Autònoma de Barcelona</span> · 2026 · <a href="certificates/Cur%20Metaan%C3%A1lisis%20(masked).pdf" class="cert-link" target="_blank"><span class="es">Ver certificado →</span><span class="en">See certificate →</span></a></div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-role"><span class="es">Metaanálisis</span><span class="en">Meta-analysis</span></div>
+                        <div class="timeline-org">100 <span class="es">h</span><span class="en">h</span> · UAB · 2026 · <a href="certificates/Cur%20Metaan%C3%A1lisis%20(masked).pdf" class="cert-link" target="_blank"><span class="es">Ver certificado →</span><span class="en">See certificate →</span></a></div>
                     </div>
-                    <div class="card-item">
-                        <div class="card-title"><span class="es">Inferencia causal mediante grafos acíclicos dirigidos</span><span class="en">Causal Inference via Directed Acyclic Graphs</span></div>
-                        <div class="card-meta">30 <span class="es">horas</span><span class="en">hours</span> · <span class="es">Universidad de Harvard</span><span class="en">Harvard University</span> · 2025 · <a href="https://courses.edx.org/certificates/a8839ebf122b4a2d812d5fae18ae866b" class="cert-link" target="_blank"><span class="es">Ver certificado →</span><span class="en">See certificate →</span></a></div>
+                    <div class="timeline-item">
+                        <div class="timeline-role"><span class="es">Inferencia causal (DAGs)</span><span class="en">Causal Inference (DAGs)</span></div>
+                        <div class="timeline-org">30 <span class="es">h</span><span class="en">h</span> · <span class="es">Universidad de Harvard</span><span class="en">Harvard University</span> · 2025 · <a href="https://courses.edx.org/certificates/a8839ebf122b4a2d812d5fae18ae866b" class="cert-link" target="_blank"><span class="es">Ver certificado →</span><span class="en">See certificate →</span></a></div>
                     </div>
-                    <div class="card-item">
-                        <div class="card-title">Microsoft Power BI</div>
-                        <div class="card-meta">40 <span class="es">horas</span><span class="en">hours</span> · IBM y Datahack · 2025 · <a href="certificates/Cur%20Power%20BI%20IBM.pdf" class="cert-link" target="_blank"><span class="es">Ver certificado →</span><span class="en">See certificate →</span></a></div>
+                    <div class="timeline-item">
+                        <div class="timeline-role">Microsoft Power BI</div>
+                        <div class="timeline-org">40 <span class="es">h</span><span class="en">h</span> · IBM & Datahack · 2025 · <a href="certificates/Cur%20Power%20BI%20IBM.pdf" class="cert-link" target="_blank"><span class="es">Ver certificado →</span><span class="en">See certificate →</span></a></div>
                     </div>
-                    <div class="card-item">
-                        <div class="card-title"><span class="es">Programación en Python</span><span class="en">Python Programming</span></div>
-                        <div class="card-meta">60 <span class="es">horas</span><span class="en">hours</span> · IBM y Bejob · 2025 · <a href="certificates/Cur%20Python.pdf" class="cert-link" target="_blank"><span class="es">Ver certificado →</span><span class="en">See certificate →</span></a></div>
+                    <div class="timeline-item">
+                        <div class="timeline-role"><span class="es">Programación en Python</span><span class="en">Python Programming</span></div>
+                        <div class="timeline-org">60 <span class="es">h</span><span class="en">h</span> · IBM & Bejob · 2025 · <a href="certificates/Cur%20Python.pdf" class="cert-link" target="_blank"><span class="es">Ver certificado →</span><span class="en">See certificate →</span></a></div>
                     </div>
-                    <div class="card-item">
-                        <div class="card-title"><span class="es">Bioarqueología de los cuidados</span><span class="en">Bioarchaeology of Care</span></div>
-                        <div class="card-meta">11 <span class="es">horas</span><span class="en">hours</span> · UNED · 2025 · <a href="certificates/Cur%20Bioarqueología%20(masked).pdf" class="cert-link" target="_blank"><span class="es">Ver certificado →</span><span class="en">See certificate →</span></a></div>
+                    <div class="timeline-item">
+                        <div class="timeline-role"><span class="es">Bioarqueología de los cuidados</span><span class="en">Bioarchaeology of Care</span></div>
+                        <div class="timeline-org">11 <span class="es">h</span><span class="en">h</span> · UNED · 2025 · <a href="certificates/Cur%20Bioarqueolog%C3%ADa%20(masked).pdf" class="cert-link" target="_blank"><span class="es">Ver certificado →</span><span class="en">See certificate →</span></a></div>
                     </div>
-                    <div class="card-item">
-                        <div class="card-title"><span class="es">Evaluación e intervención de la discalculia</span><span class="en">Assessment and Intervention of Dyscalculia</span></div>
-                        <div class="card-meta">20 <span class="es">horas</span><span class="en">hours</span> · <span class="es">Asociación Española de Psicología Sanitaria</span><span class="en">Spanish Association of Health Psychology</span> · 2025 · <a href="certificates/Cur%20Discalculia%20(masked).pdf" class="cert-link" target="_blank"><span class="es">Ver certificado →</span><span class="en">See certificate →</span></a></div>
+                    <div class="timeline-item">
+                        <div class="timeline-role"><span class="es">Evaluación e intervención de la discalculia</span><span class="en">Assessment and Intervention of Dyscalculia</span></div>
+                        <div class="timeline-org">20 <span class="es">h</span><span class="en">h</span> · <span class="es">AEPS</span><span class="en">AEPS</span> · 2025 · <a href="certificates/Cur%20Discalculia%20(masked).pdf" class="cert-link" target="_blank"><span class="es">Ver certificado →</span><span class="en">See certificate →</span></a></div>
                     </div>
                 </div>
             </div>
@@ -1376,35 +1272,35 @@
             </div>
 
             <h3><span class="es">Divulgativas</span><span class="en">Popular Science</span></h3>
-            <div class="card-list">
-                <div class="card-item">
-                    <div class="card-title">En prisión: Venganza o corrección?</div>
-                    <div class="card-meta"><a href="https://revistaperiferias.wordpress.com/2021/02/28/en-prision-venganza-o-correccion/"><em>Periferias</em></a>, 28 <span class="es">de febrero de</span><span class="en">Feb</span> 2021</div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-role">En prisión: Venganza o corrección?</div>
+                    <div class="timeline-org"><a href="https://revistaperiferias.wordpress.com/2021/02/28/en-prision-venganza-o-correccion/"><em>Periferias</em></a>, 28 <span class="es">de febrero de</span><span class="en">Feb</span> 2021</div>
                 </div>
-                <div class="card-item">
-                    <div class="card-title">Why neuroscientists still cannot read your mind</div>
-                    <div class="card-meta"><a href="https://areomagazine.com/2020/10/20/why-neuroscientists-still-cannot-read-your-mind/"><em>Areo Magazine</em></a>, 22 <span class="es">de octubre de</span><span class="en">Oct</span> 2020</div>
+                <div class="timeline-item">
+                    <div class="timeline-role">Why neuroscientists still cannot read your mind</div>
+                    <div class="timeline-org"><a href="https://areomagazine.com/2020/10/20/why-neuroscientists-still-cannot-read-your-mind/"><em>Areo Magazine</em></a>, 22 <span class="es">de octubre de</span><span class="en">Oct</span> 2020</div>
                 </div>
-                <div class="card-item">
-                    <div class="card-title">Al final del arco iris</div>
-                    <div class="card-meta"><a href="https://revistaperiferias.wordpress.com/2020/06/28/al-final-del-arco-iris/"><em>Periferias</em></a>, 28 <span class="es">de junio de</span><span class="en">Jun</span> 2020</div>
+                <div class="timeline-item">
+                    <div class="timeline-role">Al final del arco iris</div>
+                    <div class="timeline-org"><a href="https://revistaperiferias.wordpress.com/2020/06/28/al-final-del-arco-iris/"><em>Periferias</em></a>, 28 <span class="es">de junio de</span><span class="en">Jun</span> 2020</div>
                 </div>
-                <div class="card-item">
-                    <div class="card-title">A WEIRD problem for human nature</div>
-                    <div class="card-meta"><a href="https://areomagazine.com/2019/11/27/a-weird-problem-for-human-nature/"><em>Areo Magazine</em></a>, 27 <span class="es">de noviembre de</span><span class="en">Nov</span> 2019</div>
+                <div class="timeline-item">
+                    <div class="timeline-role">A WEIRD problem for human nature</div>
+                    <div class="timeline-org"><a href="https://areomagazine.com/2019/11/27/a-weird-problem-for-human-nature/"><em>Areo Magazine</em></a>, 27 <span class="es">de noviembre de</span><span class="en">Nov</span> 2019</div>
                 </div>
-                <div class="card-item">
-                    <div class="card-title">Susceptible y subliminalmente: La irracionalidad de nuestras decisiones</div>
-                    <div class="card-meta"><a href="http://www.revistafua.com/article/susceptible-y-subliminal-mente/"><em>Revista Fua</em></a>, 2019</div>
+                <div class="timeline-item">
+                    <div class="timeline-role">Susceptible y subliminalmente: La irracionalidad de nuestras decisiones</div>
+                    <div class="timeline-org"><a href="http://www.revistafua.com/article/susceptible-y-subliminal-mente/"><em>Revista Fua</em></a>, 2019</div>
                 </div>
             </div>
 
             <h3 style="margin-top: 32px;"><span class="es">Académicas</span><span class="en">Academic</span></h3>
-            <div class="card-list">
-                <div class="card-item">
-                    <div class="card-title">Who has anomalous experiences today? Evidence for the highly sensitive person paradox</div>
-                    <div class="card-meta">Álex Escolà-Gascón, Christopher C. French, Neil Dagnall, Andrew Denovan y <strong>Alejandro Rujano</strong></div>
-                    <div class="card-meta"><a href="https://journals.sagepub.com/doi/abs/10.1177/00332941251347255"><em>Psychological Reports</em></a>, 2025</div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-role">Who has anomalous experiences today? Evidence for the highly sensitive person paradox</div>
+                    <div class="timeline-org">Álex Escolà-Gascón, Christopher C. French, Neil Dagnall, Andrew Denovan y <strong>Alejandro Rujano</strong></div>
+                    <div class="timeline-org"><a href="https://journals.sagepub.com/doi/abs/10.1177/00332941251347255"><em>Psychological Reports</em></a>, 2025</div>
                 </div>
             </div>
         </section>
@@ -1417,58 +1313,53 @@
 
             <div class="year-block">
                 <h3>2026</h3>
-
-                <div class="congress-item">
-                    <div class="congress-authors">Alejandro Rujano y Enrique Heredia-Aguado</div>
-                    <div class="congress-title"><a href="#">Aunque la hipótesis se vista de seda: Sesgos metodológicos en el estudio de la paradoja de la igualdad de género</a></div>
-                    <div class="congress-meta"><span class="es">Comunicación oral</span><span class="en">Oral presentation</span> · XIX <span class="es">Congreso de Metodología de las Ciencias Sociales y de la Salud</span><span class="en">Congress of Methodology of Social and Health Sciences</span> (ULR) · <a href="#">URL</a></div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-role"><a href="#">Aunque la hipótesis se vista de seda: Sesgos metodológicos en el estudio de la paradoja de la igualdad de género</a></div>
+                        <div class="timeline-org">Alejandro Rujano y Enrique Heredia-Aguado</div>
+                        <div class="timeline-date"><span class="comm-badge"><span class="es">Comunicación oral</span><span class="en">Oral presentation</span></span> · XIX <span class="es">Congreso de Metodología</span><span class="en">Methodology Congress</span> (ULR) · <a href="#">URL</a></div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-role"><a href="#">No te dejes engañar por el azar: Cómo impacta la aleatoriedad en el diseño de redes neuronales</a></div>
+                        <div class="timeline-org">Enrique Heredia-Aguado y Alejandro Rujano</div>
+                        <div class="timeline-date"><span class="comm-badge"><span class="es">Comunicación oral</span><span class="en">Oral presentation</span></span> · XIX <span class="es">Congreso de Metodología de las Ciencias del Comportamiento y de la Salud</span><span class="en">Health and Behavioural Sciences Methodology Congress</span></div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-role"><a href="#">Ojo al dato: Soluciones interdisciplinares a problemas metodológicos en experimentos de búsqueda visual</a></div>
+                        <div class="timeline-org">Laura Cepero-Amores, Enrique Heredia-Aguado, Alejandro Rujano, Victoria Plaza, Mª Pilar Aivar</div>
+                        <div class="timeline-date"><span class="comm-badge"><span class="es">Comunicación oral</span><span class="en">Oral presentation</span></span> · XIX <span class="es">Congreso de Metodología de las Ciencias del Comportamiento y de la Salud</span><span class="en">Health and Behavioural Sciences Methodology Congress</span></div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-role"><a href="#">Quién es mujer en el deporte competitivo? La segregación sexual como políticas de opresión</a></div>
+                        <div class="timeline-org">Alejandro Rujano</div>
+                        <div class="timeline-date"><span class="comm-badge"><span class="es">Comunicación oral</span><span class="en">Oral presentation</span></span> · V <span class="es">Congreso Internacional de Estudios Interdisciplinares LGTBIA+ y Queer</span><span class="en">International LGTBIA+ & Queer Interdisciplinary Studies Congress</span></div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-role"><a href="#">Técnicas de fusión de imágenes multiespectrales para una mejor detección mediante algoritmos de aprendizaje profundo</a></div>
+                        <div class="timeline-org">Enrique Heredia-Aguado, Alejandro Rujano, David Valiente y Arturo Gil</div>
+                        <div class="timeline-date"><span class="comm-badge"><span class="es">Comunicación oral</span><span class="en">Oral presentation</span></span> · VI <span class="es">Congreso Anual Internacional de Estudiantes de Doctorado</span><span class="en">International Annual Doctoral Students Congress</span></div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-role"><a href="#">Búsqueda visual repetida en contexto natural, eficiencia o aprendizaje?</a></div>
+                        <div class="timeline-org">Laura Cepero Amores, Enrique Heredia-Aguado, Alejandro Rujano, Mª Victoria Pilar y Victoria Plaza</div>
+                        <div class="timeline-date"><span class="comm-badge"><span class="es">Comunicación oral</span><span class="en">Oral presentation</span></span> · VI <span class="es">Congreso Anual Internacional de Estudiantes de Doctorado</span><span class="en">International Annual Doctoral Students Congress</span></div>
+                    </div>
                 </div>
-
-                <div class="congress-item">
-                    <div class="congress-authors">Enrique Heredia-Aguado y Alejandro Rujano</div>
-                    <div class="congress-title"><a href="#">No te dejes engañar por el azar: Cómo impacta la aleatoriedad en el diseño de redes neuronales</a></div>
-                    <div class="congress-meta"><span class="es">Comunicación oral</span><span class="en">Oral presentation</span> · XIX <span class="es">Congreso de Metodología de las Ciencias Sociales y de la Salud</span><span class="en">Congress of Methodology of Social and Health Sciences</span> (ULR) · <a href="#">URL</a></div>
-                </div>
-
-                <div class="congress-item">
-                    <div class="congress-authors">Laura Cepero-Amores, Enrique Heredia-Aguado, Alejandro Rujano, Victoria Plaza, Mª Pilar Aivar</div>
-                    <div class="congress-title"><a href="#">Ojo al dato: Soluciones interdisciplinares a problemas metodológicos en experimentos de búsqueda visual</a></div>
-                    <div class="congress-meta"><span class="es">Comunicación oral</span><span class="en">Oral presentation</span> · XIX <span class="es">Congreso de Metodología de las Ciencias Sociales y de la Salud</span><span class="en">Congress of Methodology of Social and Health Sciences</span> (ULR) · <a href="#">URL</a></div>
-                </div>
-
-                <div class="congress-item">
-                    <div class="congress-authors">Alejandro Rujano</div>
-                    <div class="congress-title"><a href="#">Quién es mujer en el deporte competitivo? La segregación sexual como políticas de opresión</a></div>
-                    <div class="congress-meta"><span class="es">Comunicación oral</span><span class="en">Oral presentation</span> · V <span class="es">Congreso Internacional de Estudios Interdisciplinares LGTBIA+ y Queer</span><span class="en">International Congress of Interdisciplinary LGTBIA+ and Queer Studies</span> · <a href="#">URL</a></div>
-                </div>
-
-                <div class="congress-item">
-                    <div class="congress-authors">Enrique Heredia-Aguado, Alejandro Rujano, David Valiente y Arturo Gil</div>
-                    <div class="congress-title"><a href="#">Técnicas de fusión de imágenes multiespectrales para una mejor detección mediante algoritmos de aprendizaje profundo</a></div>
-                    <div class="congress-meta"><span class="es">Comunicación oral</span><span class="en">Oral presentation</span> · VI <span class="es">Congreso Anual Internacional de Estudiantes de Doctorado</span><span class="en">Annual International Doctoral Students Congress</span> · <a href="#">URL</a></div>
-                </div>
-
-                <div class="congress-item">
-                    <div class="congress-authors">Laura Cepero Amores, Enrique Heredia-Aguado, Alejandro Rujano, Mª Victoria Pilar y Victoria Plaza</div>
-                    <div class="congress-title"><a href="#">Búsqueda visual repetida en contexto natural, eficiencia o aprendizaje?</a></div>
-                    <div class="congress-meta"><span class="es">Comunicación oral</span><span class="en">Oral presentation</span> · VI <span class="es">Congreso Anual Internacional de Estudiantes de Doctorado</span><span class="en">Annual International Doctoral Students Congress</span> · <a href="#">URL</a></div>
-                </div>
-
             </div>
 
             <div class="year-block">
                 <h3>2024</h3>
-
-                <div class="congress-item">
-                    <div class="congress-authors">Alejandro Rujano</div>
-                    <div class="congress-title"><a href="https://aemcco.org/visor.php?doc=2_noticias/207anexo_1.pdf">La cadena de los acontecimientos: Aspectos teóricos, metodológicos y filosóficos de la causalidad</a></div>
-                    <div class="congress-meta"><span class="es">Comunicación oral</span><span class="en">Oral presentation</span> · XVIII <span class="es">Congreso de Metodología de las Ciencias del Comportamiento</span><span class="en">Congress of Methodology of Behavioural Sciences</span> (URL) · <a href="#">URL</a></div>
-                </div>
-
-                <div class="congress-item">
-                    <div class="congress-authors">Alejandro Rujano y Alicia Franco-Martínez</div>
-                    <div class="congress-title"><a href="https://aemcco.org/visor.php?doc=2_noticias/207anexo_1.pdf">Cómo divulgar psicometría a un público no psicólogo</a></div>
-                    <div class="congress-meta"><span class="es">Comunicación oral</span><span class="en">Oral presentation</span> · XVIII <span class="es">Congreso de Metodología de las Ciencias del Comportamiento</span><span class="en">Congress of Methodology of Behavioural Sciences</span> (URL) · <a href="#">URL</a></div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-role"><a href="https://aemcco.org/visor.php?doc=2_noticias/207anexo_1.pdf">La cadena de los acontecimientos: Aspectos teóricos, metodológicos y filosóficos de la causalidad</a></div>
+                        <div class="timeline-org">Alejandro Rujano</div>
+                        <div class="timeline-date"><span class="comm-badge"><span class="es">Comunicación oral</span><span class="en">Oral presentation</span></span> · XVIII <span class="es">Congreso de Metodología de las Ciencias del Comportamiento y de la Salud</span><span class="en">Health and Behavioural Sciences Methodology Congress</span></div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-role"><a href="https://aemcco.org/visor.php?doc=2_noticias/207anexo_1.pdf">Cómo divulgar psicometría a un público no psicólogo</a></div>
+                        <div class="timeline-org">Alejandro Rujano y Alicia Franco-Martínez</div>
+                        <div class="timeline-date"><span class="comm-badge"><span class="es">Comunicación oral</span><span class="en">Oral presentation</span></span> · XVIII <span class="es">Congreso de Metodología de las Ciencias del Comportamiento y de la Salud</span><span class="en">Health and Behavioural Sciences Methodology Congress</span></div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1495,150 +1386,39 @@
                 <h2><span class="es">Otros proyectos</span><span class="en">Other Projects</span></h2>
             </div>
 
-            <div class="project-grid">
-                <div class="project-card">
-                    <div class="project-year">2026</div>
-                    <div class="project-title">Psychometric Tools: Interactive web applications for measurement and assessment research</div>
-                    <div class="project-authors">Enrique Heredia-Aguado <span class="es">y</span><span class="en">and</span> Alejandro Rujano</div>
-                    <a href="https://enheragu.github.io/psychometric-tools/" class="project-link"><span class="es">Ver proyecto →</span><span class="en">View project →</span></a>
+            <div class="project-tape" id="projectTape">
+                <button type="button" class="tape-nav tape-nav-prev" id="tapePrev" aria-label="Anterior">‹</button>
+                <button type="button" class="tape-nav tape-nav-next" id="tapeNext" aria-label="Siguiente">›</button>
+                <div class="project-tape-track" id="projectTapeTrack">
+                    <div class="project-tape-card">
+                        <div class="project-tape-year">2026</div>
+                        <span class="project-badge"><span class="es">Software libre</span><span class="en">Free software</span></span>
+                        <div class="project-tape-title">Psychometric Tools: Interactive web applications for measurement and assessment research</div>
+                        <div class="project-tape-authors">Enrique Heredia-Aguado <span class="es">y</span><span class="en">and</span> Alejandro Rujano</div>
+                        <a href="https://enheragu.github.io/psychometric-tools/" class="project-tape-link"><span class="es">Ver proyecto →</span><span class="en">View project →</span></a>
+                    </div>
+                    <div class="project-tape-card">
+                        <div class="project-tape-year">2026</div>
+                        <span class="project-badge"><span class="es">Software libre</span><span class="en">Free software</span></span>
+                        <div class="project-tape-title">ML Variance Tools: Interactive machine learning variance calculators</div>
+                        <div class="project-tape-authors">Enrique Heredia-Aguado, Alejandro Rujano, Daniel Valiente <span class="es">y</span><span class="en">and</span> Arturo Gil</div>
+                        <a href="https://enheragu.github.io/mlv-tools/" class="project-tape-link"><span class="es">Ver proyecto →</span><span class="en">View project →</span></a>
+                    </div>
+                    <div class="project-tape-card">
+                        <div class="project-tape-year">Desde 2019</div>
+                        <span class="project-badge"><span class="es">Divulgación científica</span><span class="en">Science Communication</span></span>
+                        <div class="project-tape-title">El Fantasma en la Máquina</div>
+                        <div class="project-tape-authors">Alejandro Rujano — blog</div>
+                        <a href="https://fantasmamecanico.wordpress.com" class="project-tape-link"><span class="es">Visitar blog →</span><span class="en">Visit blog →</span></a>
+                    </div>
                 </div>
-
-                <div class="project-card">
-                    <div class="project-year">2026</div>
-                    <div class="project-title">ML Variance Tools: Interactive machine learning variance calculators</div>
-                    <div class="project-authors">Enrique Heredia-Aguado, Alejandro Rujano, Daniel Valiente <span class="es">y</span><span class="en">and</span> Arturo Gil</div>
-                    <a href="https://enheragu.github.io/mlv-tools/" class="project-link"><span class="es">Ver proyecto →</span><span class="en">View project →</span></a>
+                <div class="project-tape-hint">
+                    <span class="es">← Desliza para ver más →</span>
+                    <span class="en">← Swipe to see more →</span>
                 </div>
             </div>
         </section>
     </main>
-
-    <!-- ============================================================
-         HIDDEN CV PRINT DOCUMENT — only visible during window.print()
-         ============================================================ -->
-    <div id="cv-print">
-
-        <!-- PAGE 1: two-column -->
-        <div class="p1">
-
-            <!-- SIDEBAR -->
-            <div class="sidebar">
-                <div class="sidebar-accent"></div>
-                <div class="sidebar-name">Alejandro<br>Rujano</div>
-                <div class="sidebar-tagline" id="prt-tagline"></div>
-
-                <div class="sidebar-section-title" id="prt-contact-title"></div>
-                <div class="sidebar-contact-item">📧 <a href="mailto:xalerujano@gmail.com">xalerujano@gmail.com</a></div>
-                <div class="sidebar-contact-item">📞 649 581 731</div>
-
-                <div class="sidebar-section-title" id="prt-skills-title"></div>
-                <div id="prt-skills-programming"></div>
-
-                <div class="sidebar-section-title" id="prt-stats-title"></div>
-                <div id="prt-skills-stats"></div>
-
-                <div class="sidebar-section-title" id="prt-lang-title"></div>
-                <div class="lang-row"><span class="lang-name" id="prt-lang-es"></span><span class="lang-level">C2</span></div>
-                <div class="lang-row"><span class="lang-name" id="prt-lang-fr"></span><span class="lang-level">A2</span></div>
-
-                <div class="sidebar-section-title" id="prt-member-title"></div>
-                <div class="member-item">AEMCCO</div>
-                <div class="member-item">European Association of Methodology</div>
-                <div class="member-item">Royal Statistical Society</div>
-                <div class="member-item">Hablando de Ciencia</div>
-            </div>
-
-            <!-- MAIN -->
-            <div class="main">
-                <div class="cv-section-title" id="prt-about-title"></div>
-                <div class="about-box" id="prt-about-text"></div>
-
-                <div class="cv-section-title" id="prt-exp-title" style="margin-top:5mm;"></div>
-
-                <div class="exp-item">
-                    <div class="exp-role" id="prt-exp1-role"></div>
-                    <div class="exp-org">Centro de Humanización de la Salud</div>
-                    <div class="exp-date" id="prt-exp1-date"></div>
-                </div>
-                <div class="exp-item">
-                    <div class="exp-role" id="prt-exp2-role"></div>
-                    <div class="exp-org">Universidad Autónoma de Madrid</div>
-                    <div class="exp-date" id="prt-exp2-date"></div>
-                </div>
-                <div class="exp-item">
-                    <div class="exp-role" id="prt-exp3-role"></div>
-                    <div class="exp-org">El Mundo de las Llaves</div>
-                    <div class="exp-date" id="prt-exp3-date"></div>
-                </div>
-            </div>
-        </div><!-- end .p1 -->
-
-        <!-- PAGE 2: single-column — Education + Skills -->
-        <div class="p2">
-
-            <div class="cv-section-title" id="prt-edu-title"></div>
-
-            <div class="edu-item">
-                <div class="edu-role" id="prt-edu1-role"></div>
-                <div class="edu-org">UNED</div>
-                <div class="edu-date" id="prt-edu1-date"></div>
-            </div>
-            <div class="edu-item">
-                <div class="edu-role" id="prt-edu2-role"></div>
-                <div class="edu-org">UNED</div>
-                <div class="edu-date" id="prt-edu2-date"></div>
-            </div>
-
-            <div class="sub-title" id="prt-cert-title"></div>
-
-            <div class="cert-item">
-                <span class="cert-name" id="prt-cert1-name"></span>
-                <span class="cert-meta" id="prt-cert1-meta"></span>
-            </div>
-            <div class="cert-item">
-                <span class="cert-name" id="prt-cert2-name"></span>
-                <span class="cert-meta" id="prt-cert2-meta"></span>
-            </div>
-
-            <div class="sub-title" id="prt-courses-title"></div>
-
-            <div class="cert-item">
-                <span class="cert-name" id="prt-c1-name"></span>
-                <span class="cert-meta" id="prt-c1-meta"></span>
-            </div>
-            <div class="cert-item">
-                <span class="cert-name" id="prt-c2-name"></span>
-                <span class="cert-meta" id="prt-c2-meta"></span>
-            </div>
-            <div class="cert-item">
-                <span class="cert-name">Microsoft Power BI</span>
-                <span class="cert-meta">IBM &amp; Datahack · 40h · 2025</span>
-            </div>
-            <div class="cert-item">
-                <span class="cert-name" id="prt-c4-name"></span>
-                <span class="cert-meta">IBM &amp; Bejob · 60h · 2025</span>
-            </div>
-            <div class="cert-item">
-                <span class="cert-name" id="prt-c5-name"></span>
-                <span class="cert-meta">UNED · 11h · 2025</span>
-            </div>
-            <div class="cert-item">
-                <span class="cert-name" id="prt-c6-name"></span>
-                <span class="cert-meta" id="prt-c6-meta"></span>
-            </div>
-
-            <!-- COMPETENCIAS -->
-            <div class="cv-section-title" id="prt-comp-title" style="margin-top:6mm;"></div>
-
-            <div class="skill-cat-label" id="prt-prog-label"></div>
-            <div class="skill-pills-row" id="prt-prog-pills"></div>
-
-            <div class="skill-cat-label" id="prt-stat-label"></div>
-            <div class="skill-pills-row" id="prt-stat-pills"></div>
-
-        </div><!-- end .p2 -->
-
-    </div><!-- end #cv-print -->
 
     <footer>
         <div class="container">
@@ -1668,84 +1448,27 @@
             });
         }
 
-        /* ============================================================
-           SCROLL-TRIGGER LINE
-           ------------------------------------------------------------
-           A horizontal trigger line across the viewport controls
-           when each element animates in or out.
+                // Intersection Observer for individual achievement items
+        const itemObserverOptions = {
+            root: null,
+            rootMargin: '0px 0px -8% 0px',
+            threshold: 0.15
+        };
 
-           • Scrolling DOWN  → element top crosses line upward → SHOW.
-           • Scrolling UP    → element top crosses line downward → HIDE.
-           • Elements already above the line stay visible.
-
-           TRIGGER_PERCENT: distance from top of viewport.
-           Lower (e.g. 60) = animations happen higher on screen.
-           Higher (e.g. 85) = animations happen closer to bottom.
-           ============================================================ */
-        const TRIGGER_PERCENT = 80;
-        const animatedItems = document.querySelectorAll(
-            '.section-header, h3, .timeline-item, .card-item, .congress-item, .project-card, .award-card, .about-text, .skill-category'
-        );
-
-        // Track whether each element's top edge is above the trigger line
-        const aboveLine = new WeakMap();
-
-        function checkAnimations() {
-            const triggerY = window.innerHeight * (TRIGGER_PERCENT / 100);
-
-            animatedItems.forEach(el => {
-                const rect = el.getBoundingClientRect();
-                const isAbove = rect.top < triggerY;
-                const wasAbove = aboveLine.get(el);
-
-                if (wasAbove !== undefined && wasAbove !== isAbove) {
-                    // The element just crossed the trigger line
-                    if (isAbove) {
-                        // Crossed upward → scrolling down → fade in
-                        el.classList.add('in-view');
-                    } else {
-                        // Crossed downward → scrolling up → fade out
-                        el.classList.remove('in-view');
-                    }
-                }
-
-                aboveLine.set(el, isAbove);
-            });
-        }
-
-        // On page load, set initial visibility instantly (no animation)
-        function init() {
-            document.body.classList.add('no-anim-init');
-            const triggerY = window.innerHeight * (TRIGGER_PERCENT / 100);
-
-            animatedItems.forEach(el => {
-                const rect = el.getBoundingClientRect();
-                const isAbove = rect.top < triggerY;
-                aboveLine.set(el, isAbove);
-                if (isAbove) {
-                    el.classList.add('in-view');
+        const itemObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    // Once revealed, stop watching it: it stays visible even
+                    // after it scrolls out of view above the viewport.
+                    itemObserver.unobserve(entry.target);
                 }
             });
+        }, itemObserverOptions);
 
-            // Force reflow so the instant state is painted before re-enabling transitions
-            void document.body.offsetHeight;
-            document.body.classList.remove('no-anim-init');
-        }
-
-        let ticking = false;
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                requestAnimationFrame(() => {
-                    checkAnimations();
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        }, { passive: true });
-
-        window.addEventListener('resize', checkAnimations);
-
-        init();
+        document.querySelectorAll('.section-header, .about-text, .skill-category, .timeline-item, .card-item, .congress-item, .project-card, .project-tape-card, .award-card').forEach(item => {
+            itemObserver.observe(item);
+        });
 
         // Active section detection for nav dots
         const navDots = document.querySelectorAll('.nav-dot');
@@ -1772,6 +1495,33 @@
             document.getElementById('progressFill').style.width = progress + '%';
         });
 
+        // Project tape prev/next buttons (desktop mouse users, who can't swipe)
+        const tapeTrack = document.getElementById('projectTapeTrack');
+        const tapePrev = document.getElementById('tapePrev');
+        const tapeNext = document.getElementById('tapeNext');
+
+        if (tapeTrack && tapePrev && tapeNext) {
+            const scrollTapeBy = (direction) => {
+                const card = tapeTrack.querySelector('.project-tape-card');
+                const gap = 16; // matches the track's CSS gap
+                const distance = card ? card.getBoundingClientRect().width + gap : tapeTrack.clientWidth * 0.8;
+                tapeTrack.scrollBy({ left: direction * distance, behavior: 'smooth' });
+            };
+
+            tapePrev.addEventListener('click', () => scrollTapeBy(-1));
+            tapeNext.addEventListener('click', () => scrollTapeBy(1));
+
+            const updateTapeButtons = () => {
+                const maxScroll = tapeTrack.scrollWidth - tapeTrack.clientWidth;
+                tapePrev.disabled = tapeTrack.scrollLeft <= 4;
+                tapeNext.disabled = tapeTrack.scrollLeft >= maxScroll - 4;
+            };
+
+            tapeTrack.addEventListener('scroll', updateTapeButtons);
+            window.addEventListener('resize', updateTapeButtons);
+            updateTapeButtons();
+        }
+
         // Smooth scroll for nav dots
         navDots.forEach(dot => {
             dot.addEventListener('click', (e) => {
@@ -1782,175 +1532,6 @@
                 }
             });
         });
-
-        // ── VIEW SWITCHER ─────────────────────────────────────────────────────
-        function setView(v) {
-            document.getElementById('btn-web').classList.toggle('active', v === 'web');
-            document.getElementById('btn-pdf').classList.toggle('active', v === 'pdf');
-            if (v === 'pdf') downloadPDF();
-            // Snap back to WEB after triggering print
-            setTimeout(() => {
-                document.getElementById('btn-web').classList.add('active');
-                document.getElementById('btn-pdf').classList.remove('active');
-            }, 500);
-        }
-
-        // ── PDF / PRINT ───────────────────────────────────────────────────────
-        function downloadPDF() {
-            const isEn = document.body.classList.contains('lang-en');
-
-            const t = {
-                tagline:       isEn ? 'Psychology student · Data analyst · Science communicator'
-                                    : 'Estudiante de Psicología · Analista de datos · Divulgador científico',
-                contactTitle:  isEn ? 'Contact'               : 'Contacto',
-                skillsTitle:   isEn ? 'Programming'           : 'Programación',
-                statsTitle:    isEn ? 'Statistical software'  : 'Software estadístico',
-                langTitle:     isEn ? 'Languages'             : 'Idiomas',
-                memberTitle:   isEn ? 'Memberships'           : 'Membresías',
-                aboutTitle:    isEn ? 'About Me'              : 'Información personal',
-                aboutText:     isEn
-                    ? 'Young Psychology student interested in statistics, psychometrics and quantitative methodology. I work as a freelance data analyst, teach private classes in quantitative methods, and engage in science communication through Hablando de Ciencia.'
-                    : 'Soy un joven estudiante de Psicología interesado en estadística, psicometría y metodología en general. Trabajo como analista de datos freelance e imparto clases particulares de métodos cuantitativos, y realizo actividades de divulgación científica, colaborando con Hablando de Ciencia.',
-                expTitle:      isEn ? 'Experience'            : 'Experiencia',
-                exp1Role:      isEn ? 'Research Technician'   : 'Ayudante técnico de investigación',
-                exp1Date:      isEn ? 'May 2025 — Nov 2025'   : 'Mayo 2025 — Noviembre 2025',
-                exp2Role:      isEn ? 'Research Technician'   : 'Ayudante técnico de investigación',
-                exp2Date:      isEn ? 'May 2024 — Jun 2024'   : 'Mayo 2024 — Junio 2024',
-                exp3Role:      isEn ? 'Data Analyst Consultant': 'Consultor analista de datos',
-                exp3Date:      isEn ? 'Aug 2019 — Jan 2023'   : 'Agosto 2019 — Enero 2023',
-                eduTitle:      isEn ? 'Education'             : 'Formación',
-                edu1Role:      isEn ? "Bachelor's in Psychology" : 'Grado en Psicología',
-                edu1Date:      isEn ? '2023 — Present'        : '2023 — Actualidad',
-                edu2Role:      isEn ? 'Microbachelor in Mathematics' : 'Microgrado en Matemáticas',
-                edu2Date:      isEn ? '2025 — Present'        : '2025 — Actualidad',
-                certTitle:     isEn ? 'Professional Certificates' : 'Certificados profesionales',
-                cert1Name:     isEn ? 'IBM Data Analyst'      : 'Analista de datos de IBM',
-                cert1Meta:     'IBM · 60h · 2025',
-                cert2Name:     isEn ? 'Google Data Analyst'   : 'Analista de datos de Google',
-                cert2Meta:     'Google · 260h · 2024',
-                coursesTitle:  isEn ? 'Courses'               : 'Cursos',
-                c1Name:        isEn ? 'Meta-analysis'         : 'Metaanálisis',
-                c1Meta:        'Universitat Autònoma de Barcelona · 100h · 2026',
-                c2Name:        isEn ? 'Causal Inference via DAGs' : 'Inferencia causal mediante DAGs',
-                c2Meta:        isEn ? 'Harvard University · 30h · 2025' : 'Universidad de Harvard · 30h · 2025',
-                c4Name:        isEn ? 'Python Programming'    : 'Programación en Python',
-                c5Name:        isEn ? 'Bioarchaeology of Care': 'Bioarqueología de los cuidados',
-                c6Name:        isEn ? 'Assessment of Dyscalculia' : 'Evaluación e intervención de la discalculia',
-                c6Meta:        isEn ? 'Spanish Assoc. of Health Psychology · 20h · 2025'
-                                    : 'Asoc. Española de Psicología Sanitaria · 20h · 2025',
-                compTitle:     isEn ? 'Skills'                : 'Competencias',
-                progLabel:     isEn ? 'Programming & Analysis': 'Programación y análisis',
-                statLabel:     isEn ? 'Statistical software'  : 'Software estadístico',
-                langEs:        isEn ? 'Spanish'               : 'Español',
-                langFr:        isEn ? 'French'                : 'Francés',
-            };
-
-            function set(id, val) {
-                const el = document.getElementById(id);
-                if (el) el.textContent = val;
-            }
-            function pills(id, items, cls) {
-                const el = document.getElementById(id);
-                if (!el) return;
-                el.innerHTML = items.map(i => `<span class="${cls}">${i}</span>`).join('');
-            }
-
-            set('prt-tagline',       t.tagline);
-            set('prt-contact-title', t.contactTitle);
-            set('prt-skills-title',  t.skillsTitle);
-            set('prt-stats-title',   t.statsTitle);
-            set('prt-lang-title',    t.langTitle);
-            set('prt-member-title',  t.memberTitle);
-            set('prt-about-title',   t.aboutTitle);
-            set('prt-about-text',    t.aboutText);
-            set('prt-exp-title',     t.expTitle);
-            set('prt-exp1-role',     t.exp1Role);
-            set('prt-exp1-date',     t.exp1Date);
-            set('prt-exp2-role',     t.exp2Role);
-            set('prt-exp2-date',     t.exp2Date);
-            set('prt-exp3-role',     t.exp3Role);
-            set('prt-exp3-date',     t.exp3Date);
-            set('prt-edu-title',     t.eduTitle);
-            set('prt-edu1-role',     t.edu1Role);
-            set('prt-edu1-date',     t.edu1Date);
-            set('prt-edu2-role',     t.edu2Role);
-            set('prt-edu2-date',     t.edu2Date);
-            set('prt-cert-title',    t.certTitle);
-            set('prt-cert1-name',    t.cert1Name);
-            set('prt-cert1-meta',    t.cert1Meta);
-            set('prt-cert2-name',    t.cert2Name);
-            set('prt-cert2-meta',    t.cert2Meta);
-            set('prt-courses-title', t.coursesTitle);
-            set('prt-c1-name',       t.c1Name);
-            set('prt-c1-meta',       t.c1Meta);
-            set('prt-c2-name',       t.c2Name);
-            set('prt-c2-meta',       t.c2Meta);
-            set('prt-c4-name',       t.c4Name);
-            set('prt-c5-name',       t.c5Name);
-            set('prt-c6-name',       t.c6Name);
-            set('prt-c6-meta',       t.c6Meta);
-            set('prt-comp-title',    t.compTitle);
-            set('prt-prog-label',    t.progLabel);
-            set('prt-stat-label',    t.statLabel);
-            set('prt-lang-es',       t.langEs);
-            set('prt-lang-fr',       t.langFr);
-
-            const progItems = ['R', 'Python', 'SQL', isEn ? 'Advanced Excel' : 'Excel avanzado', 'Power BI', 'Tableau'];
-            const statItems = ['JASP', 'Jamovi', 'Minitab', 'SPSS', 'Stata'];
-            pills('prt-skills-programming', progItems, 'skill-pill');
-            pills('prt-skills-stats',       statItems, 'skill-pill');
-            pills('prt-prog-pills',         progItems, 'skill-pill-p2');
-            pills('prt-stat-pills',         statItems, 'skill-pill-p2');
-
-            // Collect all inline <style> blocks
-            const styles = Array.from(document.querySelectorAll('style'))
-                .map(s => s.textContent).join('\n');
-
-            const printHTML = document.getElementById('cv-print').outerHTML;
-
-            const fullHTML = `<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-@page { size: A4 portrait; margin: 0; }
-body { margin: 0; padding: 0; background: white; }
-${styles}
-#cv-print { display: block !important; }
-</style>
-</head>
-<body>${printHTML}</body>
-</html>`;
-
-            // Remove any previous print iframe
-            const oldIframe = document.getElementById('_cv_print_iframe');
-            if (oldIframe) oldIframe.remove();
-
-            const iframe = document.createElement('iframe');
-            iframe.id = '_cv_print_iframe';
-            iframe.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:210mm;height:297mm;border:0;opacity:0;';
-            document.body.appendChild(iframe);
-
-            // srcdoc keeps the iframe same-origin — contentWindow.print() is never blocked
-            iframe.srcdoc = fullHTML;
-
-            iframe.onload = () => {
-                // Give Google Fonts ~1s to render inside the iframe
-                setTimeout(() => {
-                    try {
-                        iframe.contentWindow.focus();
-                        iframe.contentWindow.print();
-                        iframe.contentWindow.addEventListener('afterprint', () => iframe.remove());
-                        setTimeout(() => { if (document.getElementById('_cv_print_iframe')) iframe.remove(); }, 60000);
-                    } catch (e) {
-                        // Last-resort fallback: open in new tab so the user can Ctrl+P manually
-                        const w = window.open('');
-                        if (w) { w.document.write(fullHTML); w.document.close(); }
-                    }
-                }, 1000);
-            };
-        }
     </script>
 </body>
 </html>
