@@ -308,13 +308,22 @@
             padding-bottom: 12px;
             border-bottom: 2px solid var(--border);
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(32px);
             transition: opacity 0.6s ease, transform 0.6s ease;
         }
 
         .section-header.in-view {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        /* ── Exit transition: elements leaving upward (scroll up) ── */
+        /* Applied briefly before in-view is removed, so the transition
+           plays visibly rather than snapping. The transition property on
+           each element already handles the animation — we just need to
+           ensure the 'out' state uses a slower, more visible duration. */
+        .exiting {
+            transition: opacity 0.5s ease, transform 0.5s ease !important;
         }
 
         h2 {
@@ -346,7 +355,7 @@
             border-left: 3px solid var(--accent-purple);
             border-radius: 0 8px 8px 0;
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(32px);
             transition: opacity 0.6s ease, transform 0.6s ease;
         }
 
@@ -384,7 +393,7 @@
         .skill-category {
             margin-bottom: 20px;
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(32px);
             transition: opacity 0.6s ease, transform 0.6s ease;
         }
 
@@ -407,14 +416,23 @@
             position: relative;
         }
 
-        .timeline::before {
+        /* Connector line: runs from below this dot all the way through
+           the margin gap to the next item. The dot (::before, z-index:1)
+           sits on top and visually terminates the line at each point. */
+        .timeline-item::after {
             content: '';
             position: absolute;
-            left: 14px;
-            top: 8px;
-            bottom: 8px;
+            left: 13px;
+            top: 18px;      /* bottom edge of this dot (top:8px + height:10px) */
+            bottom: -36px;  /* reaches next dot's top (margin-bottom:28px + dot top:8px) */
             width: 2px;
             background: var(--border);
+            z-index: 0;
+        }
+
+        /* No line after the last item in any timeline */
+        .timeline-item:last-child::after {
+            display: none;
         }
 
         .timeline-item {
@@ -422,7 +440,7 @@
             padding-left: 44px;
             margin-bottom: 28px;
             opacity: 0;
-            transform: translateX(-20px);
+            transform: translateX(-32px);
             transition: all 0.6s ease;
         }
 
@@ -489,7 +507,7 @@
             transition: all 0.3s ease;
             box-shadow: 0 1px 3px var(--shadow);
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(32px);
         }
 
         .card-item.in-view {
@@ -546,7 +564,7 @@
             transition: all 0.3s ease;
             box-shadow: 0 1px 3px var(--shadow);
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(32px);
         }
 
         .congress-item.in-view {
@@ -613,7 +631,7 @@
             transition: all 0.3s ease, opacity 0.6s ease, transform 0.6s ease;
             box-shadow: 0 1px 3px var(--shadow);
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(32px);
         }
 
         .award-card.in-view {
@@ -659,7 +677,7 @@
             transition: all 0.3s ease;
             box-shadow: 0 1px 3px var(--shadow);
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(32px);
         }
 
         .project-card.in-view {
@@ -716,73 +734,121 @@
             margin-top: 40px;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .section-nav {
-                display: none;
-            }
+        /* ── Responsive / mobile ───────────────────────────────────── */
 
+        /* Tablet and below */
+        @media (max-width: 768px) {
+            /* Hide side nav — no room on mobile */
+            .section-nav { display: none; }
+
+            /* Pull lang switcher in from the edge */
             .lang-switcher {
                 top: 10px;
                 right: 10px;
             }
 
-            header {
-                padding: 60px 0 40px;
-            }
+            /* Give header a little less breathing room */
+            header { padding: 56px 0 36px; }
 
+            /* Stack contact pills vertically, full-width */
             .contact-bar {
                 flex-direction: column;
-                gap: 10px;
+                gap: 8px;
             }
-
             .contact-item {
-                width: fit-content;
+                width: 100%;
+                justify-content: flex-start;
             }
 
-            .timeline::before {
-                left: 10px;
-            }
+            /* Blog link full-width on mobile */
+            .blog-link { display: block; text-align: center; }
 
-            .timeline-item {
-                padding-left: 34px;
-            }
+            /* Tighten section spacing */
+            section { margin-bottom: 48px; }
 
-            .timeline-item::before {
-                left: 4px;
-            }
+            /* Shrink the timeline line and dots */
+            .timeline::before { left: 10px; }
+            .timeline-item   { padding-left: 34px; }
+            .timeline-item::before { left: 4px; }
 
-            .project-grid {
-                grid-template-columns: 1fr;
-            }
+            /* Cards: remove horizontal slide on hover (annoying on touch) */
+            .card-item:hover,
+            .congress-item:hover { transform: none; }
 
+            /* Award card: stack vertically */
             .award-card {
                 flex-direction: column;
                 text-align: center;
+                gap: 10px;
             }
+
+            /* Project grid: single column */
+            .project-grid { grid-template-columns: 1fr; }
+
+            /* Project tape: cards almost full-width */
+            .project-tape-card { flex: 0 0 88%; }
+
+            /* Comm-badge: allow wrapping so long titles don't overflow */
+            .comm-badge { white-space: normal; }
         }
 
+        /* Small phone */
         @media (max-width: 480px) {
-            .container {
-                padding: 0 16px;
-            }
+            body { font-size: 14px; }
 
-            .name {
-                font-size: 2.4rem;
-            }
+            .container { padding: 0 14px; }
+
+            /* The name is already clamp()-based; force a tighter floor */
+            .name { font-size: clamp(2rem, 9vw, 2.8rem); }
+
+            h2 { font-size: 1.2rem; }
+            h3 { font-size: 1.05rem; }
 
             .about-text {
                 font-size: 1rem;
                 padding: 16px;
             }
 
-            h2 {
-                font-size: 1.25rem;
+            /* Skill tags: allow them to fill more of the row */
+            .skill-tag {
+                font-size: 0.82rem;
+                padding: 5px 11px;
             }
 
-            h3 {
-                font-size: 1.1rem;
+            /* Timeline items: tighten vertical gap */
+            .timeline-item { margin-bottom: 20px; }
+
+            /* Cards: reduce padding */
+            .card-item,
+            .congress-item { padding: 13px 15px; }
+
+            /* Tape cards: nearly full-width, less padding */
+            .project-tape-card {
+                flex: 0 0 92%;
+                padding: 18px;
             }
+
+            /* Award card: less padding */
+            .award-card { padding: 16px; }
+
+            /* section-header: tighten gap */
+            .section-header {
+                gap: 8px;
+                margin-bottom: 20px;
+            }
+
+            /* Cert links: stack below the org line on tiny screens */
+            .cert-link {
+                display: block;
+                margin: 6px 0 0 0;
+                width: fit-content;
+            }
+        }
+
+        /* Very small / landscape phones */
+        @media (max-width: 360px) {
+            .container { padding: 0 10px; }
+            .project-tape-card { flex: 0 0 96%; }
         }
 
         /* Print styles */
@@ -834,8 +900,24 @@
         /* ── Project tape (swipeable carousel) ─────────────────── */
         .project-tape {
             position: relative;
+            /* Bleed the track to the viewport edges on desktop */
             margin: 0 -24px;
             padding: 0 24px;
+        }
+
+        @media (max-width: 480px) {
+            /* On small phones the -24px bleed causes overflow; neutralise it */
+            .project-tape {
+                margin: 0 -14px;
+                padding: 0 14px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .project-tape {
+                margin: 0 -10px;
+                padding: 0 10px;
+            }
         }
 
         .project-tape-track {
@@ -845,8 +927,11 @@
             scroll-snap-type: x mandatory;
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
+            touch-action: pan-x;
             padding: 8px 4px 24px;
             scrollbar-width: none;
+            /* Prevent iOS rubber-banding from stealing horizontal swipes */
+            overscroll-behavior-x: contain;
         }
 
         .project-tape-track::-webkit-scrollbar {
@@ -855,7 +940,7 @@
 
         .project-tape-card {
             flex: 0 0 85%;
-            max-width: 360px;
+            max-width: 640px;
             scroll-snap-align: center;
             padding: 24px;
             background: var(--bg-card);
@@ -865,6 +950,13 @@
             transition: all 0.3s ease, opacity 0.6s ease, transform 0.6s ease;
             opacity: 0;
             transform: translateY(20px);
+        }
+
+        .project-tape-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin: 6px 0 10px;
         }
 
         .project-tape-card.in-view {
@@ -920,9 +1012,17 @@
             letter-spacing: 0.05em;
         }
 
-        @media (min-width: 600px) {
+        @media (min-width: 700px) {
             .project-tape-card {
-                flex: 0 0 45%;
+                flex: 0 0 70%;
+                max-width: 640px;
+            }
+        }
+
+        @media (min-width: 960px) {
+            .project-tape-card {
+                flex: 0 0 55%;
+                max-width: 640px;
             }
         }
 
@@ -977,14 +1077,7 @@
             }
         }
 
-        /* ── Timeline animation for ALL timeline sections ───────── */
-        #publications .timeline::before,
-        #congresses .timeline::before,
-        #education .timeline::before,
-        #experience .timeline::before {
-            left: 14px;
-        }
-
+        /* ── Timeline layout for all named sections ─────────────── */
         #publications .timeline-item,
         #congresses .timeline-item,
         #education .timeline-item,
@@ -1000,23 +1093,10 @@
         }
 
         @media (max-width: 768px) {
-            #publications .timeline::before,
-            #congresses .timeline::before,
-            #education .timeline::before,
-            #experience .timeline::before {
-                left: 10px;
-            }
-            #publications .timeline-item,
-            #congresses .timeline-item,
-            #education .timeline-item,
-            #experience .timeline-item {
-                padding-left: 34px;
-            }
-            #publications .timeline-item::before,
-            #congresses .timeline-item::before,
-            #education .timeline-item::before,
-            #experience .timeline-item::before {
-                left: 4px;
+            .timeline-item::after {
+                left: 9px;
+                top: 18px;
+                bottom: -28px;  /* margin-bottom:20px + dot top:8px */
             }
         }
 
@@ -1069,9 +1149,8 @@
             margin-bottom: 8px;
         }
 
-        .project-badge .es, .project-badge .en {
-            display: inline;
-        }
+        /* Let body.lang-es / body.lang-en handle .es/.en inside badges
+           (the global rule at line 43-44 is sufficient) */
 
     </style>
 </head>
@@ -1104,7 +1183,7 @@
 
     <header>
         <div class="container">
-            <h1 class="name">
+            <h1 class="name" aria-label="José Alejandro Rodríguez Rujano">
                 <span class="name-faint">José</span>
                 <span class="name-strong">Alejandro</span><br>
                 <span class="name-faint">Rodríguez</span>
@@ -1358,7 +1437,7 @@
                     </div>
                     <div class="timeline-item">
                         <div class="timeline-role"><a href="#">Búsqueda visual repetida en contexto natural, ¿eficiencia o aprendizaje?</a></div>
-                        <div class="timeline-org">Laura Cepero Amores, Enrique Heredia-Aguado, Alejandro Rujano, M..ª Victoria Pilar y Victoria Plaza</div>
+                        <div class="timeline-org">Laura Cepero Amores, Enrique Heredia-Aguado, Alejandro Rujano, M.ª Victoria Pilar y Victoria Plaza</div>
                         <div class="timeline-date"><span class="comm-badge"><span class="es">Comunicación oral</span><span class="en">Oral presentation</span></span> · VI <span class="es">Congreso Anual Internacional de Estudiantes de Doctorado</span><span class="en">International Annual Doctoral Students Congress</span></div>
                     </div>
                 </div>
@@ -1410,23 +1489,35 @@
                     <div class="project-tape-card">
                         <div class="project-tape-year">2026</div>
                         <span class="project-badge"><span class="es">Software libre</span><span class="en">Free software</span></span>
-                        <div class="project-tape-title">Psychometric Tools: Interactive web applications for measurement and assessment research</div>
+                        <div class="project-tape-title">Psychometric Tools</div>
+                        <div class="project-tape-desc">
+                            <span class="es">Aplicaciones web interactivas para uso en investigaciones transnacionales o transculturales: (1) diagnóstico de potencial sesgo de selección en la inclusión de culturas o países, (2) funcionamiento diferencial de ítems (DIF) y (3) simulaciones del impacto del sesgo en las escalas.</span>
+                            <span class="en">Interactive web apps for cross-national or cross-cultural applied researchers: (1) potential selection bias diagnostics in the inclusion of country or cultural samples, (2) differential item functioning (DIF) and (3) simulations of the impact of biased scales.</span>
+                        </div>
                         <div class="project-tape-authors">Enrique Heredia-Aguado <span class="es">y</span><span class="en">and</span> Alejandro Rujano</div>
-                        <a href="https://enheragu.github.io/psychometric-tools/" class="project-tape-link"><span class="es">Ver proyecto →</span><span class="en">View project →</span></a>
+                        <a href="https://enheragu.github.io/psychometric-tools/" class="project-tape-link" target="_blank"><span class="es">Ver proyecto →</span><span class="en">View project →</span></a>
                     </div>
                     <div class="project-tape-card">
                         <div class="project-tape-year">2026</div>
                         <span class="project-badge"><span class="es">Software libre</span><span class="en">Free software</span></span>
-                        <div class="project-tape-title">ML Variance Tools: Interactive machine learning variance calculators</div>
+                        <div class="project-tape-title">ML Variance Tools</div>
+                        <div class="project-tape-desc">
+                            <span class="es">Aplicaciones web interactivas para visualizar y apreciar cómo la aleatoriedad en el entrenamiento afecta a la estabilidad y el rendimiento de los modelos.</span>
+                            <span class="en">Interactive web apps for showing and appreciating how training randomness affects model stability and performance.</span>
+                        </div>
                         <div class="project-tape-authors">Enrique Heredia-Aguado, Alejandro Rujano, Daniel Valiente <span class="es">y</span><span class="en">and</span> Arturo Gil</div>
-                        <a href="https://enheragu.github.io/mlv-tools/" class="project-tape-link"><span class="es">Ver proyecto →</span><span class="en">View project →</span></a>
+                        <a href="https://enheragu.github.io/mlv-tools/" class="project-tape-link" target="_blank"><span class="es">Ver proyecto →</span><span class="en">View project →</span></a>
                     </div>
                     <div class="project-tape-card">
                         <div class="project-tape-year"><span class="es">Desde 2019</span><span class="en">Since 2019</span></div>
                         <span class="project-badge"><span class="es">Divulgación científica</span><span class="en">Science Communication</span></span>
                         <div class="project-tape-title">El Fantasma en la Máquina</div>
+                        <div class="project-tape-desc">
+                            <span class="es">Blog personal de divulgación científica sobre ciencias del comportamiento, con toques de estadística, psicometría y metodología, escrito para un público curioso sin necesidad de ser especialista.</span>
+                            <span class="en">Personal science communication blog on behavioural sciences, with forays into statistics, psychometrics, and methodology —written for the curious non-specialist, and specialists too.</span>
+                        </div>
                         <div class="project-tape-authors">Alejandro Rujano</div>
-                        <a href="https://fantasmamecanico.wordpress.com" class="project-tape-link"><span class="es">Visitar blog →</span><span class="en">Visit blog →</span></a>
+                        <a href="https://fantasmamecanico.wordpress.com" class="project-tape-link" target="_blank"><span class="es">Visitar blog →</span><span class="en">Visit blog →</span></a>
                     </div>
                 </div>
                 <div class="project-tape-hint">
@@ -1465,46 +1556,67 @@
             });
         }
 
-                // Directional scroll observer:
-        //  • Scrolling down: elements enter from bottom → animate in.
-        //  • Scrolling down past them: they leave through top → stay visible.
-        //  • Scrolling up: they leave through bottom → animate out (disappear).
-        //  • Scrolling down again after dismissal → animate back in.
+        // Track scroll direction explicitly — this is the only reliable way
+        // to know if an element is leaving through the top or bottom,
+        // and it survives resize events without getting confused.
+        let lastScrollY = window.scrollY;
+        let scrollDir = 'down';
+        window.addEventListener('scroll', () => {
+            scrollDir = window.scrollY > lastScrollY ? 'down' : 'up';
+            lastScrollY = window.scrollY;
+        }, { passive: true });
+
+        // On resize, briefly disable the observer so it doesn't misfire
+        // while layout is recalculating, then re-enable it.
+        let resizing = false;
+        window.addEventListener('resize', () => {
+            resizing = true;
+            clearTimeout(window._resizeTimer);
+            window._resizeTimer = setTimeout(() => { resizing = false; }, 200);
+        });
+
         const itemStates = new WeakMap();
         const itemObserverOptions = {
             root: null,
-            rootMargin: '0px 0px -8% 0px',
-            threshold: 0.15
+            rootMargin: '0px 0px 25% 0px',
+            threshold: 0.75
         };
 
+        const ANIMATED = '.section-header, .about-text, .skill-category, .timeline-item, .card-item, .congress-item, .project-card, .award-card';
+
         const itemObserver = new IntersectionObserver((entries) => {
+            if (resizing) return;  // ignore observer noise during resize
+
             entries.forEach(entry => {
-                const rect = entry.boundingClientRect;
-                const isInView = entry.isIntersecting;
+                const isIntersecting = entry.isIntersecting;
                 let state = itemStates.get(entry.target) || 'hidden';
 
-                if (isInView) {
-                    // Entering from bottom
-                    if (rect.top >= 0 && (state === 'hidden' || state === 'dismissed')) {
+                if (isIntersecting) {
+                    // Element entered the observation zone
+                    if (state === 'hidden' || state === 'dismissed') {
+                        entry.target.classList.remove('exiting');
                         entry.target.classList.add('in-view');
                         itemStates.set(entry.target, 'visible');
                     }
-                    // Entering from top → do nothing
                 } else {
-                    // Leaving
-                    if (state === 'visible') {
-                        if (rect.top > 0) {
-                            // Leaving through bottom (scrolling up) → dismiss
+                    // Element left the observation zone
+                    if (state === 'visible' && scrollDir === 'up') {
+                        // Only dismiss when actually scrolling up
+                        entry.target.classList.add('exiting');
+                        setTimeout(() => {
                             entry.target.classList.remove('in-view');
-                            itemStates.set(entry.target, 'dismissed');
-                        }
-                        // Leaving through top (scrolling down) → stay visible
+                            setTimeout(() => {
+                                entry.target.classList.remove('exiting');
+                            }, 500);
+                        }, 50);
+                        itemStates.set(entry.target, 'dismissed');
                     }
+                    // Scrolling down past top → stay visible (do nothing)
                 }
             });
         }, itemObserverOptions);
 
-        document.querySelectorAll('.section-header, .about-text, .skill-category, .timeline-item, .card-item, .congress-item, .project-card, .award-card').forEach(item => {
+        document.querySelectorAll(ANIMATED).forEach(item => {
             itemObserver.observe(item);
         });
 
